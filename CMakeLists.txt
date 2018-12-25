@@ -17,4 +17,5 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/libsupcxx/include
   )
 
+add_subdirectory(io)
 add_subdirectory(boot/${ARCH_TYPE})
