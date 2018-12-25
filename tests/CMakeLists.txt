@@ -7,9 +7,9 @@ function(add_test name)
     )
 endfunction()
 
-set(tests global-ctors-dtors)
+set(tests global-ctors-dtors;initializers-operators)
 
-foreach(i RANGE 0 0)
+foreach(i RANGE 0 1)
   list(GET tests ${i} name)
   if(i LESS 10)
     add_test(test-0${i}-${name})
