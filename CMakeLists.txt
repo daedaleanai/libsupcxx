@@ -11,3 +11,5 @@ enable_language(C CXX ASM)
 include(Kernel)
 
 project(libsupxx)
+
+add_subdirectory(boot/${ARCH_TYPE})
