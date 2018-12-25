@@ -18,4 +18,5 @@ include_directories(
   )
 
 add_subdirectory(io)
+add_subdirectory(libruncxx)
 add_subdirectory(boot/${ARCH_TYPE})
