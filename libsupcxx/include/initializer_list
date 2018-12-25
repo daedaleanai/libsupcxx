@@ -30,15 +30,11 @@
 #ifndef _INITIALIZER_LIST
 #define _INITIALIZER_LIST
 
+#include <cstddef>
+
 #pragma GCC system_header
 
-#if __cplusplus < 201103L
-# include <bits/c++0x_warning.h>
-#else // C++0x
-
 #pragma GCC visibility push(default)
-
-#include <bits/c++config.h>
 
 namespace std
 {
@@ -101,7 +97,5 @@ namespace std
 }
 
 #pragma GCC visibility pop
-
-#endif // C++11
 
 #endif // _INITIALIZER_LIST
