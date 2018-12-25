@@ -64,7 +64,7 @@ void printMatrix(const Matrix &a) {
   }
 }
 
-int main(int argc, char **argv) {
+void main(const char *cmdline) {
   Matrix a = {
      1,  2,  3,  4,
      5,  6,  7,  8,
@@ -86,6 +86,4 @@ int main(int argc, char **argv) {
   Matrix c = a * b;
   io::printf("a * b =\n");
   printMatrix(c);
-
-  return 0;
 }
