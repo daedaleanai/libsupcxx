@@ -125,8 +125,7 @@ uint32_t printFloat(double num) {
 } // namespace
 
 namespace io {
-int32_t printf(const char *format, ...)
-{
+int32_t printf(const char *format, ...) {
   va_list ap;
   int length  = 0;
   int sz      = 0;
