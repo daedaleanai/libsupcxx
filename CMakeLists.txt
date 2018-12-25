@@ -12,4 +12,9 @@ include(Kernel)
 
 project(libsupxx)
 
+include_directories(
+  ${CMAKE_SOURCE_DIR}
+  ${CMAKE_SOURCE_DIR}/libsupcxx/include
+  )
+
 add_subdirectory(boot/${ARCH_TYPE})
