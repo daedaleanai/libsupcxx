@@ -7,6 +7,7 @@ add_library(
   crt0.S
   crt1.S
   ${CRT2}
+  multiboot.cc
   )
 
 add_library(

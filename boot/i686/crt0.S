@@ -32,6 +32,8 @@ stack_bottom:
 .skip 65536 // 64 KiB
 stack_top:
 
+.global bootInfo
+
 //------------------------------------------------------------------------------
 // The entry point to the kernel
 //------------------------------------------------------------------------------
@@ -42,25 +44,26 @@ _start:
   // Set up the stack
   mov $stack_top, %esp
 
-  // Set up end of the stack frame linked - gdb really likes it ;)
+  // Set up end of the stack frame linked list - gdb really likes it ;)
   mov $0, %ebp
   push %ebp // rip=0
   push %ebp // ebp=0
   movl %esp, %ebp
 
-  // We'll need to pass this stuff to main later on
-  push %esi
-  push %edi
+  // Load the multiboot parameters on the stack and call the parser
+  push %ebx
+  push %eax
+  call _parseMultiboot
+  add $8, %esp
 
   // Run the global constructors
   call _init
 
-  // Restore argc and argv.
-  popl %edi
-  popl %esi
-
-  // Run main
+  // Get the commandline string pointer and start main
+  mov bootInfo, %eax
+  push %eax
   call main
+  add $4, %esp
 
   // Tun the global destructors
   call _fini

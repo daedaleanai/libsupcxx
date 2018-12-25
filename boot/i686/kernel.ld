@@ -91,6 +91,12 @@ SECTIONS
   }
 
   /*----------------------------------------------------------------------------
-   | The compiler will add other stuff as needed
+   | The linker will add other stuff as needed
    +--------------------------------------------------------------------------*/
+
+  /*----------------------------------------------------------------------------
+   | We need to know where the kernel ends in case we choose the same region
+   | for the heap.
+   *--------------------------------------------------------------------------*/
+  __kernelEnd = .;
 }
