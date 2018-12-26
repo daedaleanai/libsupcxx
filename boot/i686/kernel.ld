@@ -57,11 +57,12 @@ SECTIONS
      | _init) will call the list of constructors in the reverse order to the
      | one that it encounters in the __CTOR_LIST__. Since I want to do testing
      | using qemu, I make sure that the vga.cc's constructors are called
-     | before any other constructors.
+     | before any other constructors except for the heap initializer.
      *------------------------------------------------------------------------*/
     SORT(*libboot_first.a:*)(.ctors*)
-    EXCLUDE_FILE(*libboot_last.a:* *libio.a:vga*) *(.ctors)
+    EXCLUDE_FILE(*libboot_last.a:* *libio.a:vga* *libruncxx.a:memory*) *(.ctors)
     *libio.a:vga*(.ctors*)
+    *libruncxx.a:memory*(.ctors*)
     SORT(*libboot_last.a:*)(.ctors*)
 
     SORT(*libboot_first.a:*)(.dtors*)
