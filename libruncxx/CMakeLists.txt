@@ -4,4 +4,5 @@ add_library(
   dtors.cc
   memory.cc
   abort.cc
+  guard.cc
 )
