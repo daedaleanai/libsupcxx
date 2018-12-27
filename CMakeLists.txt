@@ -19,5 +19,6 @@ include_directories(
 
 add_subdirectory(tests)
 add_subdirectory(io)
+add_subdirectory(libsupcxx/src)
 add_subdirectory(libruncxx)
 add_subdirectory(boot/${ARCH_TYPE})

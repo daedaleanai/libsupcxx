@@ -39,6 +39,7 @@ function(add_kernel)
     boot_last
     -Wl,--no-whole-archive
     ${add_kernel_LIBS}
+    supcxx
     runcxx
     gcc
     )
