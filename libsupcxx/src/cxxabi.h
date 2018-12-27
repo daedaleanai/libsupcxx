@@ -51,6 +51,17 @@ namespace __cxxabiv1
 {
   extern "C"
   {
+
+  // Guards
+  int
+  __cxa_guard_acquire(__guard*);
+
+  void
+  __cxa_guard_release(__guard*) noexcept;
+
+  void
+  __cxa_guard_abort(__guard*) noexcept;
+
   // DSO destruction.
   int
   __cxa_atexit(void (*)(void*), void*, void*) noexcept;
