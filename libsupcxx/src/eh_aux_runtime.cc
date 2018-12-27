@@ -22,12 +22,11 @@
 // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 // <http://www.gnu.org/licenses/>.
 
-#include "typeinfo"
-#include "exception"
-#include "new"
-#include <cstdlib>
-#include "unwind-cxx.h"
-#include <bits/exception_defines.h>
+#include <typeinfo>
+#include <new>
+#include <bits/c++config.h>
+
+#include "cxxabi.h"
 
 extern "C" void
 __cxxabiv1::__cxa_bad_cast ()

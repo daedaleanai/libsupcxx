@@ -65,8 +65,6 @@ namespace
 
 namespace std
 {
-_GLIBCXX_BEGIN_NAMESPACE_VERSION
-
 #if __SIZEOF_SIZE_T__ == 4
 
   // Implementation of Murmur hash for 32-bit size_t.
@@ -193,6 +191,4 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   { return _Hash_bytes(ptr, len, seed); }
 
 #endif /* __SIZEOF_SIZE_T__ */
-
-_GLIBCXX_END_NAMESPACE_VERSION
 } // namespace

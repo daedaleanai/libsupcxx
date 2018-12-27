@@ -46,93 +46,17 @@
 #pragma GCC visibility push(default)
 
 #include <stddef.h>
-#include <bits/c++config.h>
-#include <bits/cxxabi_tweaks.h>
-#include <bits/cxxabi_forced.h>
-#include <bits/cxxabi_init_exception.h>
 
-#ifdef __cplusplus
 namespace __cxxabiv1
 {
   extern "C"
   {
-#endif
-
-  typedef __cxa_cdtor_return_type (*__cxa_cdtor_type)(void *);
-
-  // Allocate array.
-  void*
-  __cxa_vec_new(size_t __element_count, size_t __element_size,
-		size_t __padding_size, __cxa_cdtor_type __constructor,
-		__cxa_cdtor_type __destructor);
-
-  void*
-  __cxa_vec_new2(size_t __element_count, size_t __element_size,
-		 size_t __padding_size, __cxa_cdtor_type __constructor,
-		 __cxa_cdtor_type __destructor, void *(*__alloc) (size_t),
-		 void (*__dealloc) (void*));
-
-  void*
-  __cxa_vec_new3(size_t __element_count, size_t __element_size,
-		 size_t __padding_size, __cxa_cdtor_type __constructor,
-		 __cxa_cdtor_type __destructor, void *(*__alloc) (size_t),
-		 void (*__dealloc) (void*, size_t));
-
-  // Construct array.
-  __cxa_vec_ctor_return_type
-  __cxa_vec_ctor(void* __array_address, size_t __element_count,
-		 size_t __element_size, __cxa_cdtor_type __constructor,
-		 __cxa_cdtor_type __destructor);
-
-  __cxa_vec_ctor_return_type
-  __cxa_vec_cctor(void* __dest_array, void* __src_array,
-		  size_t __element_count, size_t __element_size,
-		  __cxa_cdtor_return_type (*__constructor) (void*, void*),
-		  __cxa_cdtor_type __destructor);
-
-  // Destruct array.
-  void
-  __cxa_vec_dtor(void* __array_address, size_t __element_count,
-		 size_t __element_size, __cxa_cdtor_type __destructor);
-
-  void
-  __cxa_vec_cleanup(void* __array_address, size_t __element_count, size_t __s,
-		    __cxa_cdtor_type __destructor) _GLIBCXX_NOTHROW;
-
-  // Destruct and release array.
-  void
-  __cxa_vec_delete(void* __array_address, size_t __element_size,
-		   size_t __padding_size, __cxa_cdtor_type __destructor);
-
-  void
-  __cxa_vec_delete2(void* __array_address, size_t __element_size,
-		    size_t __padding_size, __cxa_cdtor_type __destructor,
-		    void (*__dealloc) (void*));
-
-  void
-  __cxa_vec_delete3(void* __array_address, size_t __element_size,
-		    size_t __padding_size, __cxa_cdtor_type __destructor,
-		    void (*__dealloc) (void*, size_t));
-
-  int
-  __cxa_guard_acquire(__guard*);
-
-  void
-  __cxa_guard_release(__guard*) _GLIBCXX_NOTHROW;
-
-  void
-  __cxa_guard_abort(__guard*) _GLIBCXX_NOTHROW;
-
   // DSO destruction.
   int
-  __cxa_atexit(void (*)(void*), void*, void*) _GLIBCXX_NOTHROW;
+  __cxa_atexit(void (*)(void*), void*, void*) noexcept;
 
   int
   __cxa_finalize(void*);
-
-  // TLS destruction.
-  int
-  __cxa_thread_atexit(void (*)(void*), void*, void *) _GLIBCXX_NOTHROW;
 
   // Pure virtual functions.
   void
@@ -150,57 +74,9 @@ namespace __cxxabiv1
 
   void
   __cxa_throw_bad_array_new_length() __attribute__((__noreturn__));
-
-  /**
-   *  @brief Demangling routine.
-   *  ABI-mandated entry point in the C++ runtime library for demangling.
-   *
-   *  @param __mangled_name A NUL-terminated character string
-   *  containing the name to be demangled.
-   *
-   *  @param __output_buffer A region of memory, allocated with
-   *  malloc, of @a *__length bytes, into which the demangled name is
-   *  stored.  If @a __output_buffer is not long enough, it is
-   *  expanded using realloc.  @a __output_buffer may instead be NULL;
-   *  in that case, the demangled name is placed in a region of memory
-   *  allocated with malloc.
-   *
-   *  @param __length If @a __length is non-NULL, the length of the
-   *  buffer containing the demangled name is placed in @a *__length.
-   *
-   *  @param __status @a *__status is set to one of the following values:
-   *   0: The demangling operation succeeded.
-   *  -1: A memory allocation failure occurred.
-   *  -2: @a mangled_name is not a valid name under the C++ ABI mangling rules.
-   *  -3: One of the arguments is invalid.
-   *
-   *  @return A pointer to the start of the NUL-terminated demangled
-   *  name, or NULL if the demangling fails.  The caller is
-   *  responsible for deallocating this memory using @c free.
-   *
-   *  The demangling is performed using the C++ ABI mangling rules,
-   *  with GNU extensions. For example, this function is used in
-   *  __gnu_cxx::__verbose_terminate_handler.
-   *
-   *  See https://gcc.gnu.org/onlinedocs/libstdc++/manual/ext_demangling.html
-   *  for other examples of use.
-   *
-   *  @note The same demangling functionality is available via
-   *  libiberty (@c <libiberty/demangle.h> and @c libiberty.a) in GCC
-   *  3.1 and later, but that requires explicit installation (@c
-   *  --enable-install-libiberty) and uses a different API, although
-   *  the ABI is unchanged.
-   */
-  char*
-  __cxa_demangle(const char* __mangled_name, char* __output_buffer,
-		 size_t* __length, int* __status);
-
-#ifdef __cplusplus
   }
 } // namespace __cxxabiv1
-#endif
 
-#ifdef __cplusplus
 
 #include <typeinfo>
 
@@ -364,11 +240,7 @@ namespace __cxxabiv1
   {
   public:
     const __class_type_info* 	__base_type;  // Base class type.
-#ifdef _GLIBCXX_LLP64
-    long long			__offset_flags;  // Offset and info.
-#else
     long 			__offset_flags;  // Offset and info.
-#endif
 
     enum __offset_flags_masks
       {
@@ -571,12 +443,6 @@ namespace __cxxabiv1
 		__upcast_result& __restrict __result) const;
   };
 
-  // Exception handling forward declarations.
-  struct __cxa_exception;
-  struct __cxa_refcounted_exception;
-  struct __cxa_dependent_exception;
-  struct __cxa_eh_globals;
-
   extern "C"
   {
   // Dynamic cast runtime.
@@ -592,67 +458,7 @@ namespace __cxxabiv1
 		 const __class_type_info* __src_type, // Static type of object.
 		 const __class_type_info* __dst_type, // Desired target type.
 		 ptrdiff_t __src2dst); // How src and dst are related.
-
-
-  // Exception handling runtime.
-
-  // The __cxa_eh_globals for the current thread can be obtained by using
-  // either of the following functions.  The "fast" version assumes at least
-  // one prior call of __cxa_get_globals has been made from the current
-  // thread, so no initialization is necessary.
-  __cxa_eh_globals*
-  __cxa_get_globals() _GLIBCXX_NOTHROW __attribute__ ((__const__));
-
-  __cxa_eh_globals*
-  __cxa_get_globals_fast() _GLIBCXX_NOTHROW __attribute__ ((__const__));
-
-  // Free the space allocated for the primary exception.
-  void 
-  __cxa_free_exception(void*) _GLIBCXX_NOTHROW;
-
-  // Throw the exception.
-  void
-  __cxa_throw(void*, std::type_info*, void (_GLIBCXX_CDTOR_CALLABI *) (void *))
-  __attribute__((__noreturn__));
-
-  // Used to implement exception handlers.
-  void*
-  __cxa_get_exception_ptr(void*) _GLIBCXX_NOTHROW __attribute__ ((__pure__));
-
-  void*
-  __cxa_begin_catch(void*) _GLIBCXX_NOTHROW;
-
-  void 
-  __cxa_end_catch();
-
-  void 
-  __cxa_rethrow() __attribute__((__noreturn__));
-
-  // Returns the type_info for the currently handled exception [15.3/8], or
-  // null if there is none.
-  std::type_info*
-  __cxa_current_exception_type() _GLIBCXX_NOTHROW __attribute__ ((__pure__));
-
-  // GNU Extensions.
-
-  // Allocate memory for a dependent exception.
-  __cxa_dependent_exception*
-  __cxa_allocate_dependent_exception() _GLIBCXX_NOTHROW;
-
-  // Free the space allocated for the dependent exception.
-  void
-  __cxa_free_dependent_exception(__cxa_dependent_exception*) _GLIBCXX_NOTHROW;
-
-  } // extern "C"
-
-  // A magic placeholder class that can be caught by reference
-  // to recognize foreign exceptions.
-  class __foreign_exception
-  {
-    virtual ~__foreign_exception() throw();
-    virtual void __pure_dummy() = 0; // prevent catch by value
-  };
-
+  }
 } // namespace __cxxabiv1
 
 /** @namespace abi
@@ -676,29 +482,6 @@ namespace __cxxabiv1
  *  that be needed.'</em>
 */
 namespace abi = __cxxabiv1;
-
-namespace __gnu_cxx
-{
-  /**
-   *  @brief Exception thrown by __cxa_guard_acquire.
-   *  @ingroup exceptions
-   *
-   *  6.7[stmt.dcl]/4: If control re-enters the declaration (recursively)
-   *  while the object is being initialized, the behavior is undefined.
-   *
-   *  Since we already have a library function to handle locking, we might
-   *  as well check for this situation and throw an exception.
-   *  We use the second byte of the guard variable to remember that we're
-   *  in the middle of an initialization.
-   */
-  class recursive_init_error: public std::exception
-  {
-  public:
-    recursive_init_error() throw() { }
-    virtual ~recursive_init_error() throw ();
-  };
-}
-#endif // __cplusplus
 
 #pragma GCC visibility pop
 

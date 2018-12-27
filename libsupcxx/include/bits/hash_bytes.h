@@ -32,12 +32,10 @@
 
 #pragma GCC system_header
 
-#include <bits/c++config.h>
+#include <cstddef>
 
 namespace std
 {
-_GLIBCXX_BEGIN_NAMESPACE_VERSION
-
   // Hash function implementation for the nontrivial specialization.
   // All of them are based on a primitive that hashes a pointer to a
   // byte array. The actual hash algorithm is not guaranteed to stay
@@ -52,8 +50,6 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   // machines.)
   size_t
   _Fnv_hash_bytes(const void* __ptr, size_t __len, size_t __seed);
-
-_GLIBCXX_END_NAMESPACE_VERSION
 } // namespace
 
 #endif

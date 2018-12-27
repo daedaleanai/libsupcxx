@@ -33,12 +33,7 @@ using std::type_info;
 bool
 type_info::before (const type_info &arg) const _GLIBCXX_NOEXCEPT
 {
-#if __GXX_MERGED_TYPEINFO_NAMES
   return name () < arg.name ();
-#else
-  return (name ()[0] == '*') ? name () < arg.name ()
-    :  __builtin_strcmp (name (), arg.name ()) < 0;
-#endif
 }
 
 #endif

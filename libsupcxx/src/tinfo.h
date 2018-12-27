@@ -22,12 +22,12 @@
 // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 // <http://www.gnu.org/licenses/>.
 
-#include "typeinfo"
+#include <typeinfo>
 #include <cstddef>
 
 // Class declarations shared between the typeinfo implementation files.
 
-#include <cxxabi.h>
+#include "cxxabi.h"
 
 namespace __cxxabiv1 {
 
@@ -43,18 +43,8 @@ struct vtable_prefix
   // Offset to most derived object.
   ptrdiff_t whole_object;
 
-  // Additional padding if necessary.
-#ifdef _GLIBCXX_VTABLE_PADDING
-  ptrdiff_t padding1;               
-#endif
-
   // Pointer to most derived type_info.
   const __class_type_info *whole_type;  
-
-  // Additional padding if necessary.
-#ifdef _GLIBCXX_VTABLE_PADDING
-  ptrdiff_t padding2;               
-#endif
 
   // What a class's vptr points to.
   const void *origin;               
@@ -115,7 +105,6 @@ inline bool contained_nonvirtual_p (__class_type_info::__sub_kind access_path)
 
 static const __class_type_info *const nonvirtual_base_type =
     static_cast <const __class_type_info *> (0) + 1;
-
 } // namespace
 
 // __upcast_result is used to hold information during traversal of a class

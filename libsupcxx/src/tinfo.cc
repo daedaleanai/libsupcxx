@@ -22,7 +22,6 @@
 // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 // <http://www.gnu.org/licenses/>.
 
-#include <bits/c++config.h>
 #include <cstddef>
 #include "tinfo.h"
 
@@ -34,17 +33,9 @@ std::type_info::
 
 // We can't rely on common symbols being shared between shared objects.
 bool std::type_info::
-operator== (const std::type_info& arg) const _GLIBCXX_NOEXCEPT
+operator== (const std::type_info& arg) const noexcept
 {
-#if __GXX_MERGED_TYPEINFO_NAMES
   return name () == arg.name ();
-#else
-  /* The name() method will strip any leading '*' prefix. Therefore
-     take care to look at __name rather than name() when looking for
-     the "pointer" prefix.  */
-  return (&arg == this)
-    || (__name[0] != '*' && (__builtin_strcmp (name (), arg.name ()) == 0));
-#endif
 }
 
 #endif
