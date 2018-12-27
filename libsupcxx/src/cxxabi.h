@@ -46,6 +46,7 @@
 #pragma GCC visibility push(default)
 
 #include <stddef.h>
+#include <stdint.h>
 
 namespace __cxxabiv1
 {
@@ -54,13 +55,13 @@ namespace __cxxabiv1
 
   // Guards
   int
-  __cxa_guard_acquire(__guard*);
+  __cxa_guard_acquire(uint64_t*);
 
   void
-  __cxa_guard_release(__guard*) noexcept;
+  __cxa_guard_release(uint64_t*) noexcept;
 
   void
-  __cxa_guard_abort(__guard*) noexcept;
+  __cxa_guard_abort(uint64_t*) noexcept;
 
   // DSO destruction.
   int
