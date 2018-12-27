@@ -22,7 +22,6 @@
 // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 // <http://www.gnu.org/licenses/>.
 
-#include <bits/c++config.h>
 #include <bits/exception_defines.h>
 #include "new"
 
@@ -31,8 +30,7 @@ using std::bad_alloc;
 
 extern "C" void *malloc (std::size_t);
 
-_GLIBCXX_WEAK_DEFINITION void *
-operator new (std::size_t sz, const std::nothrow_t&) _GLIBCXX_USE_NOEXCEPT
+void *operator new (std::size_t sz, const std::nothrow_t&) noexcept
 {
   void *p;
 

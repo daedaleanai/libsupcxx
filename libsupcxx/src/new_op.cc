@@ -24,22 +24,15 @@
 // <http://www.gnu.org/licenses/>.
 
 #include <bits/c++config.h>
-#include <cstdlib>
 #include <bits/exception_defines.h>
-#include "new"
+#include <new>
 
 using std::new_handler;
 using std::bad_alloc;
-#if _GLIBCXX_HOSTED
-using std::malloc;
-#else
-// A freestanding C runtime may not provide "malloc" -- but there is no
-// other reasonable way to implement "operator new".
-extern "C" void *malloc (std::size_t);
-#endif
 
-_GLIBCXX_WEAK_DEFINITION void *
-operator new (std::size_t sz) _GLIBCXX_THROW (std::bad_alloc)
+extern "C" void *malloc(std::size_t);
+
+void *operator new(std::size_t sz)
 {
   void *p;
 

@@ -23,14 +23,12 @@
 // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 // <http://www.gnu.org/licenses/>.
 
-#include <bits/c++config.h>
 #include "new"
 
 // The sized deletes are defined in other files.
 #pragma GCC diagnostic ignored "-Wsized-deallocation"
 
-_GLIBCXX_WEAK_DEFINITION void
-operator delete[] (void *ptr) _GLIBCXX_USE_NOEXCEPT
+void operator delete[] (void *ptr) noexcept
 {
   ::operator delete (ptr);
 }

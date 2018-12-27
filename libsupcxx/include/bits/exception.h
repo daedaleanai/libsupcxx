@@ -35,8 +35,6 @@
 
 #pragma GCC visibility push(default)
 
-#include <bits/c++config.h>
-
 extern "C++" {
 
 namespace std
@@ -60,15 +58,14 @@ namespace std
   class exception
   {
   public:
-    exception() _GLIBCXX_USE_NOEXCEPT { }
-    virtual ~exception() _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_USE_NOEXCEPT;
+    exception() noexcept { }
+    virtual ~exception() noexcept;
 
     /** Returns a C-style character string describing the general cause
      *  of the current error.  */
     virtual const char*
-    what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_USE_NOEXCEPT;
+    what() const noexcept;
   };
-
 } // namespace std
 
 }
