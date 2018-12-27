@@ -1,6 +1,5 @@
 
 #include "../bootinfo.hh"
-#include <io/printf.hh>
 #include <stdint.h>
 
 #define MULTIBOOT_MEMORY_AVAILABLE 1
