@@ -25,7 +25,7 @@
 
 #pragma GCC diagnostic ignored "-Wsized-deallocation"
 
-#include "new"
+#include <new>
 
 void operator delete(void *ptr, std::size_t) noexcept
 {

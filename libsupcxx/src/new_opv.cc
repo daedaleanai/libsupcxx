@@ -23,7 +23,7 @@
 // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 // <http://www.gnu.org/licenses/>.
 
-#include "new"
+#include <new>
 
 void *operator new[] (std::size_t sz)
 {

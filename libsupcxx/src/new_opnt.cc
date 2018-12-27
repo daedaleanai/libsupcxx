@@ -23,7 +23,7 @@
 // <http://www.gnu.org/licenses/>.
 
 #include <bits/exception_defines.h>
-#include "new"
+#include <new>
 
 using std::new_handler;
 using std::bad_alloc;

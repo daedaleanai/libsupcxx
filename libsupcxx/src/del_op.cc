@@ -28,7 +28,7 @@ namespace std
   extern "C" void free(void*);
 } // namespace
 
-#include "new"
+#include <new>
 
 // The sized deletes are defined in other files.
 #pragma GCC diagnostic ignored "-Wsized-deallocation"
