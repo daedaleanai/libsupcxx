@@ -4,8 +4,10 @@ add_library(
 
   # heap
   del_op.cc
+  del_opnt.cc
   del_ops.cc
   del_opv.cc
+  del_opvnt.cc
   del_opvs.cc
   new_op.cc
   new_opnt.cc
