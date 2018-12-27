@@ -11,6 +11,7 @@ set(tests global-ctors-dtors)
 list(APPEND tests initializers-operators)
 list(APPEND tests virtuals)
 list(APPEND tests heap)
+list(APPEND tests rtti)
 
 list(LENGTH tests test_length)
 math(EXPR test_bound ${test_length}-1)
