@@ -5,4 +5,5 @@ add_library(
   memory.cc
   abort.cc
   guard.cc
+  string.cc
 )

@@ -40,7 +40,7 @@ function(add_kernel)
     -Wl,--no-whole-archive
     ${add_kernel_LIBS}
     supcxx
-    runcxx
     gcc
+    runcxx
     )
 endfunction(add_kernel)
