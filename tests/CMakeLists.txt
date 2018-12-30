@@ -13,6 +13,8 @@ list(APPEND tests virtuals)
 list(APPEND tests heap)
 list(APPEND tests rtti)
 list(APPEND tests local-statics)
+list(APPEND tests trivial-exception)
+list(APPEND tests throw-clean-up-rethrow)
 
 list(LENGTH tests test_length)
 math(EXPR test_bound ${test_length}-1)
