@@ -69,7 +69,20 @@ SECTIONS
     EXCLUDE_FILE(*libboot_last.a:*) *(.dtors)
     SORT(*libboot_last.a:*)(.dtors*)
 
-    *(.rodata)
+    /*--------------------------------------------------------------------------
+     | Libgcc's unwinding code sticks a label at the beginning of the eh_frame
+     | information and a sentinel at the end, so that it can easily find this
+     | data in the binary. Therefore we need to repeat the same trick we did for
+     | the constructors and destructors here as well.
+     |
+     | The LSDA (Language-Specific Data) will land just after that.
+     *------------------------------------------------------------------------*/
+    SORT(*libboot_first.a:*)(.eh_frame)
+    EXCLUDE_FILE(*libboot_last.a:*) *(.eh_frame)
+    SORT(*libboot_last.a:*)(.eh_frame)
+    *(.gcc_except_table)
+
+    *(.rodata*)
     *(.gnu.linkonce.r*)
   }
 
@@ -78,8 +91,28 @@ SECTIONS
    +--------------------------------------------------------------------------*/
   .data BLOCK(4K) : ALIGN(4K)
   {
-    *(.data)
+    *(.data*)
     *(.gnu.linkonce.d*)
+
+    /*--------------------------------------------------------------------------
+     | You might be surprised, as I was, why we need .got.plt in a statically
+     | linked binary. The answer is and interesting one. See here:
+     |
+     | https://reverseengineering.stackexchange.com/questions/2172/why-are-got-
+     | and-plt-still-present-in-linux-static-stripped-binaries
+     |
+     | Since the purpose of PLT stubs is to dispatch cross module calls, it
+     | would seem that the targets can only be exported symbols from other
+     | modules. However, recent versions of gcc support a new function type
+     | called gnu indirect function, which allows a function to have many
+     | different implementations, with the most suitable one selected at runtime
+     | based on factors such as the CPU type. Currently, many glibc low level
+     | functions such as memcpy, strcmp and strlen use this feature. To support
+     | this feature, a library exports a chooser function that selects at
+     | runtime which of the many implementations is going to be used. These
+     | implementation functions may not be exported at all.
+     *------------------------------------------------------------------------*/
+    *(.got.plt)
   }
 
   /*----------------------------------------------------------------------------
