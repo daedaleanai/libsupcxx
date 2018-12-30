@@ -6,4 +6,6 @@ add_library(
   abort.cc
   guard.cc
   string.cc
+  eh_alloc.cc
+  eh_globals.cc
 )
