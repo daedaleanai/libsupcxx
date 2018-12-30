@@ -22,37 +22,26 @@
 // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 // <http://www.gnu.org/licenses/>.
 
-#include "typeinfo"
-#include "exception"
-#include <cstdlib>
+#include <exception>
 #include "unwind-cxx.h"
 #include <bits/exception_defines.h>
-#include <bits/atomic_lockfree_defines.h>
-
-#if ATOMIC_POINTER_LOCK_FREE < 2
-#include <ext/concurrence.h>
-namespace
-{
-  __gnu_cxx::__mutex mx;
-}
-#endif
 
 using namespace __cxxabiv1;
 
 void
-__cxxabiv1::__terminate (std::terminate_handler handler) throw ()
+__cxxabiv1::__terminate (std::terminate_handler handler) noexcept
 {
   __try 
     {
       handler ();
-      std::abort ();
+      __builtin_abort ();
     } 
   __catch(...) 
-    { std::abort (); }
+    { __builtin_abort (); }
 }
 
 void
-std::terminate () throw()
+std::terminate () noexcept
 {
   __terminate (get_terminate ());
 }
@@ -71,55 +60,29 @@ std::unexpected ()
 }
 
 std::terminate_handler
-std::set_terminate (std::terminate_handler func) throw()
+std::set_terminate (std::terminate_handler func) noexcept
 {
   std::terminate_handler old;
-#if ATOMIC_POINTER_LOCK_FREE > 1
-  __atomic_exchange (&__terminate_handler, &func, &old, __ATOMIC_ACQ_REL);
-#else
-  __gnu_cxx::__scoped_lock l(mx);
-  old = __terminate_handler;
   __terminate_handler = func;
-#endif
   return old;
 }
 
 std::terminate_handler
 std::get_terminate () noexcept
 {
-  std::terminate_handler func;
-#if ATOMIC_POINTER_LOCK_FREE > 1
-  __atomic_load (&__terminate_handler, &func, __ATOMIC_ACQUIRE);
-#else
-  __gnu_cxx::__scoped_lock l(mx);
-  func = __terminate_handler;
-#endif
-  return func;
+  return __terminate_handler;
 }
 
 std::unexpected_handler
-std::set_unexpected (std::unexpected_handler func) throw()
+std::set_unexpected (std::unexpected_handler func) noexcept
 {
   std::unexpected_handler old;
-#if ATOMIC_POINTER_LOCK_FREE > 1
-  __atomic_exchange (&__unexpected_handler, &func, &old, __ATOMIC_ACQ_REL);
-#else
-  __gnu_cxx::__scoped_lock l(mx);
-  old = __unexpected_handler;
   __unexpected_handler = func;
-#endif
   return old;
 }
 
 std::unexpected_handler
 std::get_unexpected () noexcept
 {
-  std::unexpected_handler func;
-#if ATOMIC_POINTER_LOCK_FREE > 1
-  __atomic_load (&__unexpected_handler, &func, __ATOMIC_ACQUIRE);
-#else
-  __gnu_cxx::__scoped_lock l(mx);
-  func = __unexpected_handler;
-#endif
-  return func;
+  return __unexpected_handler;
 }

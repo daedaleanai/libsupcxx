@@ -35,4 +35,18 @@ add_library(
   pointer_type_info.cc
   si_class_type_info.cc
   vmi_class_type_info.cc
+
+  # exceptions
+  bad_alloc.cc
+  bad_cast.cc
+  bad_typeid.cc
+  bad_array_new.cc
+  eh_exception.cc
+  eh_terminate.cc
+  eh_term_handler.cc
+  eh_unex_handler.cc
+  eh_personality.cc
+  eh_throw.cc
+  eh_catch.cc
+  eh_call.cc
   )

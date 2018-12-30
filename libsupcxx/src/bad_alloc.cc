@@ -23,12 +23,12 @@
 // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 // <http://www.gnu.org/licenses/>.
 
-#include "new"
+#include <new>
 
-std::bad_alloc::~bad_alloc() _GLIBCXX_USE_NOEXCEPT { }
+std::bad_alloc::~bad_alloc() noexcept { }
 
 const char* 
-std::bad_alloc::what() const _GLIBCXX_USE_NOEXCEPT
+std::bad_alloc::what() const noexcept
 {
   return "std::bad_alloc";
 }

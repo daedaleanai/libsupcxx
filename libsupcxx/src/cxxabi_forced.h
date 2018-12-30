@@ -35,7 +35,6 @@
 
 #pragma GCC visibility push(default)
 
-#ifdef __cplusplus
 namespace __cxxabiv1
 {  
   /** 
@@ -47,13 +46,12 @@ namespace __cxxabiv1
    */
   class __forced_unwind
   {
-    virtual ~__forced_unwind() throw();
+    virtual ~__forced_unwind() noexcept;
 
     // Prevent catch by value.
     virtual void __pure_dummy() = 0; 
   };
 }
-#endif // __cplusplus
 
 #pragma GCC visibility pop
 

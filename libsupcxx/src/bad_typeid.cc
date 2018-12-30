@@ -25,10 +25,10 @@
 
 namespace std {
 
-bad_typeid::~bad_typeid() _GLIBCXX_USE_NOEXCEPT { }
+bad_typeid::~bad_typeid() noexcept { }
 
 const char* 
-bad_typeid::what() const _GLIBCXX_USE_NOEXCEPT
+bad_typeid::what() const noexcept
 {
   return "std::bad_typeid";
 }

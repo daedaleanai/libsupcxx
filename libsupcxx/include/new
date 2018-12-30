@@ -107,9 +107,9 @@ namespace std
  *  Placement new and delete signatures (take a memory address argument,
  *  does nothing) may not be replaced by a user's program.
 */
-void* operator new(std::size_t) throw(std::bad_alloc)
+void* operator new(std::size_t)
   __attribute__((__externally_visible__));
-void* operator new[](std::size_t) throw(std::bad_alloc)
+void* operator new[](std::size_t)
   __attribute__((__externally_visible__));
 void operator delete(void*) noexcept
   __attribute__((__externally_visible__));

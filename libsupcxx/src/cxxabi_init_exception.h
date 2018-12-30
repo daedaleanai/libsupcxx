@@ -36,14 +36,6 @@
 #pragma GCC visibility push(default)
 
 #include <stddef.h>
-#include <bits/c++config.h>
-
-#ifndef _GLIBCXX_CDTOR_CALLABI
-#define _GLIBCXX_CDTOR_CALLABI
-#define _GLIBCXX_HAVE_CDTOR_CALLABI 0
-#else
-#define _GLIBCXX_HAVE_CDTOR_CALLABI 1
-#endif
 
 #ifdef __cplusplus
 
@@ -60,16 +52,15 @@ namespace __cxxabiv1
     {
       // Allocate memory for the primary exception plus the thrown object.
       void*
-      __cxa_allocate_exception(size_t) _GLIBCXX_NOTHROW;
+      __cxa_allocate_exception(size_t) noexcept;
 
       void
-      __cxa_free_exception(void*) _GLIBCXX_NOTHROW;
+      __cxa_free_exception(void*) noexcept;
 
       // Initialize exception (this is a GNU extension)
       __cxa_refcounted_exception*
       __cxa_init_primary_exception(void *object, std::type_info *tinfo,
-                void (_GLIBCXX_CDTOR_CALLABI *dest) (void *)) _GLIBCXX_NOTHROW;
-
+                void (*dest) (void *)) noexcept;
     }
 } // namespace __cxxabiv1
 

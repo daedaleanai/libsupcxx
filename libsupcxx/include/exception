@@ -34,7 +34,6 @@
 
 #pragma GCC visibility push(default)
 
-#include <bits/c++config.h>
 #include <bits/exception.h>
 
 extern "C++" {
@@ -46,15 +45,15 @@ namespace std
   class bad_exception : public exception
   {
   public:
-    bad_exception() _GLIBCXX_USE_NOEXCEPT { }
+    bad_exception() noexcept { }
 
     // This declaration is not useless:
     // http://gcc.gnu.org/onlinedocs/gcc-3.0.2/gcc_6.html#SEC118
-    virtual ~bad_exception() _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_USE_NOEXCEPT;
+    virtual ~bad_exception() noexcept;
 
     // See comment in eh_exception.cc.
     virtual const char*
-    what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_USE_NOEXCEPT;
+    what() const noexcept;
   };
 
   /// If you write a replacement %terminate handler, it must be of this type.
@@ -64,24 +63,20 @@ namespace std
   typedef void (*unexpected_handler) ();
 
   /// Takes a new handler function as an argument, returns the old function.
-  terminate_handler set_terminate(terminate_handler) _GLIBCXX_USE_NOEXCEPT;
+  terminate_handler set_terminate(terminate_handler) noexcept;
 
-#if __cplusplus >= 201103L
   /// Return the current terminate handler.
   terminate_handler get_terminate() noexcept;
-#endif
 
   /** The runtime will call this function if %exception handling must be
    *  abandoned for any reason.  It can also be called by the user.  */
-  void terminate() _GLIBCXX_USE_NOEXCEPT __attribute__ ((__noreturn__));
+  void terminate() noexcept __attribute__ ((__noreturn__));
 
   /// Takes a new handler function as an argument, returns the old function.
-  unexpected_handler set_unexpected(unexpected_handler) _GLIBCXX_USE_NOEXCEPT;
+  unexpected_handler set_unexpected(unexpected_handler) noexcept;
 
-#if __cplusplus >= 201103L
   /// Return the current unexpected handler.
   unexpected_handler get_unexpected() noexcept;
-#endif
 
   /** The runtime will call this function if an %exception is thrown which
    *  violates the function's %exception specification.  */
@@ -98,50 +93,11 @@ namespace std
    *  %exception can result in a call of @c terminate()
    *  (15.5.1).'
    */
-  _GLIBCXX17_DEPRECATED
-  bool uncaught_exception() _GLIBCXX_USE_NOEXCEPT __attribute__ ((__pure__));
-
-#if __cplusplus > 201402L || !defined(__STRICT_ANSI__) // c++17 or gnu++98
-#define __cpp_lib_uncaught_exceptions 201411
-  /// The number of uncaught exceptions.
-  int uncaught_exceptions() _GLIBCXX_USE_NOEXCEPT __attribute__ ((__pure__));
-#endif
-
+  bool uncaught_exception() noexcept __attribute__ ((__pure__));
   // @} group exceptions
 } // namespace std
-
-namespace __gnu_cxx
-{
-_GLIBCXX_BEGIN_NAMESPACE_VERSION
-
-  /**
-   *  @brief A replacement for the standard terminate_handler which
-   *  prints more information about the terminating exception (if any)
-   *  on stderr.
-   *
-   *  @ingroup exceptions
-   *
-   *  Call
-   *   @code
-   *     std::set_terminate(__gnu_cxx::__verbose_terminate_handler)
-   *   @endcode
-   *  to use.  For more info, see
-   *  http://gcc.gnu.org/onlinedocs/libstdc++/manual/bk01pt02ch06s02.html
-   *
-   *  In 3.4 and later, this is on by default.
-   */
-  void __verbose_terminate_handler();
-
-_GLIBCXX_END_NAMESPACE_VERSION
-} // namespace
-
 } // extern "C++"
 
 #pragma GCC visibility pop
-
-#if (__cplusplus >= 201103L)
-#include <bits/exception_ptr.h>
-#include <bits/nested_exception.h>
-#endif
 
 #endif

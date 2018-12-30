@@ -48,6 +48,9 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "cxxabi_forced.h"
+#include "cxxabi_init_exception.h"
+
 namespace __cxxabiv1
 {
   extern "C"
@@ -457,6 +460,10 @@ namespace __cxxabiv1
 
   extern "C"
   {
+  // Exception handling forward declarations.
+  struct __cxa_exception;
+  struct __cxa_eh_globals;
+
   // Dynamic cast runtime.
 
   // src2dst has the following possible values
@@ -470,7 +477,56 @@ namespace __cxxabiv1
 		 const __class_type_info* __src_type, // Static type of object.
 		 const __class_type_info* __dst_type, // Desired target type.
 		 ptrdiff_t __src2dst); // How src and dst are related.
-  }
+
+  // Exception handling runtime.
+
+  // The __cxa_eh_globals for the current thread can be obtained by using
+  // either of the following functions.  The "fast" version assumes at least
+  // one prior call of __cxa_get_globals has been made from the current
+  // thread, so no initialization is necessary.
+  __cxa_eh_globals*
+  __cxa_get_globals() noexcept __attribute__ ((__const__));
+
+  __cxa_eh_globals*
+  __cxa_get_globals_fast() noexcept __attribute__ ((__const__));
+
+  // Free the space allocated for the primary exception.
+  void
+  __cxa_free_exception(void*) noexcept;
+
+  // Throw the exception.
+  void
+  __cxa_throw(void*, std::type_info*, void (*) (void *))
+  __attribute__((__noreturn__));
+
+  // Used to implement exception handlers.
+  void*
+  __cxa_get_exception_ptr(void*) noexcept __attribute__ ((__pure__));
+
+  void*
+  __cxa_begin_catch(void*) noexcept;
+
+  void
+  __cxa_end_catch();
+
+  void
+  __cxa_rethrow() __attribute__((__noreturn__));
+
+  // Returns the type_info for the currently handled exception [15.3/8], or
+  // null if there is none.
+  std::type_info*
+  __cxa_current_exception_type() noexcept __attribute__ ((__pure__));
+
+  } // extern "C"
+
+  // A magic placeholder class that can be caught by reference
+  // to recognize foreign exceptions.
+  class __foreign_exception
+  {
+    virtual ~__foreign_exception() noexcept;
+    virtual void __pure_dummy() = 0; // prevent catch by value
+  };
+
 } // namespace __cxxabiv1
 
 /** @namespace abi
