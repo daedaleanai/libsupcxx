@@ -1,6 +1,6 @@
 // -*- C++ -*- forwarding header.
 
-// Copyright (C) 2000-2018 Free Software Foundation, Inc.
+// Copyright (C) 1997-2018 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -22,6 +22,16 @@
 // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 // <http://www.gnu.org/licenses/>.
 
+/** @file cstddef
+ *  This is a Standard C++ Library file.  You should @c \#include this file
+ *  in your programs, rather than any of the @a *.h implementation files.
+ *
+ *  This is the C++ version of the Standard C Library header @c stddef.h,
+ *  and its contents are (mostly) the same as that header, but are all
+ *  contained in the namespace @c std (except for names which are defined
+ *  as macros in C).
+ */
+
 //
 // ISO C++ 14882: 18.1  Types
 //
@@ -31,15 +41,19 @@
 
 #pragma GCC system_header
 
-#define __need_size_t
-#define __need_ptrdiff_t
-#define __need_NULL
-#define __need_offsetof
-#include_next <stddef.h>
+#undef __need_wchar_t
+#undef __need_ptrdiff_t
+#undef __need_size_t
+#undef __need_NULL
+#undef __need_wint_t
+#include <stddef.h>
 
-namespace std {
+namespace std
+{
   using ::size_t;
   using ::ptrdiff_t;
+  using ::nullptr_t;
+  using ::max_align_t;
 }
 
-#endif
+#endif // _GLIBCXX_CSTDDEF
