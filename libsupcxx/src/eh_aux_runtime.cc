@@ -24,7 +24,7 @@
 
 #include <typeinfo>
 #include <new>
-#include <bits/c++config.h>
+#include "exception_defines.h"
 
 #include "cxxabi.h"
 

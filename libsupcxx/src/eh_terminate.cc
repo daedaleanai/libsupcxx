@@ -24,7 +24,7 @@
 
 #include <exception>
 #include "unwind-cxx.h"
-#include <bits/exception_defines.h>
+#include "exception_defines.h"
 
 using namespace __cxxabiv1;
 

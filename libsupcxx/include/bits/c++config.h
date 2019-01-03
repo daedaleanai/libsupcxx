@@ -36,15 +36,6 @@
 // The datestamp of the C++ library in compressed ISO date format.
 #define __GLIBCXX__ 20180726
 
-#ifndef _GLIBCXX_THROW_OR_ABORT
-# if __cpp_exceptions
-#  define _GLIBCXX_THROW_OR_ABORT(_EXC) (throw (_EXC))
-# else
-#  define _GLIBCXX_THROW_OR_ABORT(_EXC) (__builtin_abort())
-# endif
-#endif
-
-
 #endif // _GLIBCXX_CXX_CONFIG_H
 
 // End of prewritten config; the settings discovered at configure time follow.

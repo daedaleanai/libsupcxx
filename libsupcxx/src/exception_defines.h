@@ -32,11 +32,13 @@
 
 #if ! __cpp_exceptions
 // Iff -fno-exceptions, transform error handling code to work without it.
+#  define _GLIBCXX_THROW_OR_ABORT(_EXC) (__builtin_abort())
 # define __try      if (true)
 # define __catch(X) if (false)
 # define __throw_exception_again
 #else
 // Else proceed normally.
+#  define _GLIBCXX_THROW_OR_ABORT(_EXC) (throw (_EXC))
 # define __try      try
 # define __catch(X) catch(X)
 # define __throw_exception_again throw

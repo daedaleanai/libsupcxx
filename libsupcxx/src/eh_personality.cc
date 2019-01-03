@@ -22,7 +22,7 @@
 // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 // <http://www.gnu.org/licenses/>.
 
-#include <bits/exception_defines.h>
+#include "exception_defines.h"
 #include "cxxabi.h"
 #include "unwind-cxx.h"
 
