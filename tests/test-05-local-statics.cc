@@ -1,6 +1,12 @@
 
 #include <io/printf.hh>
 
+int recursiveInit(int i) {
+  io::printf("recursiveInit(%d)!\n", i);
+  static int s = recursiveInit(i+1);    // recursive call – undefined
+  return i+1;
+}
+
 int computeTheMeaningOfLife() {
   io::printf("Computing the meaning of life!\n");
   return 42;
@@ -20,4 +26,7 @@ void main(const char *cmdline) {
   theMeaningOfLife = getTheMeaningOfLife();
   io::printf("Answer to the Ultimate Question of Life, the Universe, and "
              "Everything: %d\n", theMeaningOfLife);
+
+  recursiveInit(0);
+  io::printf("You should not be seeing this\n");
 }
