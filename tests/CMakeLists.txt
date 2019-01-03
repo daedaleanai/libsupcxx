@@ -15,6 +15,7 @@ list(APPEND tests rtti)
 list(APPEND tests local-statics)
 list(APPEND tests trivial-exception)
 list(APPEND tests throw-clean-up-rethrow)
+list(APPEND tests ccompat)
 
 list(LENGTH tests test_length)
 math(EXPR test_bound ${test_length}-1)
