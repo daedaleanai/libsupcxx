@@ -1,5 +1,12 @@
 
-#include "config.hh"
+#include <cstddef>
+
+namespace {
+  // Maximum number of global destructors that the runtime can keep on the
+  // record. There's no heap memory at this point, and we want to keep things
+  // simple, so we're stuck with whatever we preconfigure here.
+  const size_t GLIBCXX_NUM_GLOBAL_DTORS = 100;
+}
 
 namespace {
 struct DtorEntry {
@@ -8,7 +15,7 @@ struct DtorEntry {
 };
 
 size_t numDtors = 0;
-DtorEntry dtors[__cxxabiv1::GLIBCXX_NUM_GLOBAL_DTORS];
+DtorEntry dtors[GLIBCXX_NUM_GLOBAL_DTORS];
 } // namespace
 
 namespace __cxxabiv1 {
