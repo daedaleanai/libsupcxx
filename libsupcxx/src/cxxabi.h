@@ -551,6 +551,28 @@ namespace __cxxabiv1
 */
 namespace abi = __cxxabiv1;
 
+namespace __gnu_cxx
+{
+  /**
+   *  @brief Exception thrown by __cxa_guard_acquire.
+   *  @ingroup exceptions
+   *
+   *  6.7[stmt.dcl]/4: If control re-enters the declaration (recursively)
+   *  while the object is being initialized, the behavior is undefined.
+   *
+   *  Since we already have a library function to handle locking, we might
+   *  as well check for this situation and throw an exception.
+   *  We use the second byte of the guard variable to remember that we're
+   *  in the middle of an initialization.
+   */
+  class recursive_init_error: public std::exception
+  {
+  public:
+    recursive_init_error() noexcept { }
+    virtual ~recursive_init_error() noexcept;
+  };
+}
+
 #pragma GCC visibility pop
 
 #endif // __CXXABI_H
