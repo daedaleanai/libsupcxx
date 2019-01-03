@@ -30,6 +30,12 @@
 #ifndef _GLIBCXX_CXX_CONFIG_H
 #define _GLIBCXX_CXX_CONFIG_H 1
 
+// The major release number for the GCC release the C++ library belongs to.
+#define _GLIBCXX_RELEASE 8
+
+// The datestamp of the C++ library in compressed ISO date format.
+#define __GLIBCXX__ 20180726
+
 #ifndef _GLIBCXX_THROW_OR_ABORT
 # if __cpp_exceptions
 #  define _GLIBCXX_THROW_OR_ABORT(_EXC) (throw (_EXC))

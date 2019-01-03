@@ -31,17 +31,7 @@
 
 #pragma GCC system_header
 
-#if __cplusplus < 201103L
-# include <bits/c++0x_warning.h>
-#else
-
-#include <bits/c++config.h>
-
-#if _GLIBCXX_HAVE_STDINT_H
-# include <stdint.h>
-#endif
-
-#ifdef _GLIBCXX_USE_C99_STDINT_TR1
+#include <stdint.h>
 
 namespace std
 {
@@ -81,9 +71,5 @@ namespace std
   using ::uintmax_t;
   using ::uintptr_t;
 } // namespace std
-
-#endif // _GLIBCXX_USE_C99_STDINT_TR1
-
-#endif // C++11
 
 #endif // _GLIBCXX_CSTDINT

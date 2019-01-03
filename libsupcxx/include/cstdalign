@@ -31,14 +31,12 @@
 #ifndef _GLIBCXX_CSTDALIGN
 #define _GLIBCXX_CSTDALIGN 1
 
-#if __cplusplus < 201103L
-#  include <bits/c++0x_warning.h>
-#else
-#  include <bits/c++config.h>
-#  if _GLIBCXX_HAVE_STDALIGN_H
-#    include <stdalign.h>
-#  endif
-#endif
+// alignas is a keyword from C++11 onwards. The standard requires the
+// __alignas_is_defined backwards compatibility macro to always be 1, however
+// stdalign.h defines it only for C, not for C++.
+// #include <stdalign.h>
+
+#define __alignas_is_defined 1
 
 #endif 
 

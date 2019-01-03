@@ -31,14 +31,7 @@
 #ifndef _GLIBCXX_CSTDBOOL
 #define _GLIBCXX_CSTDBOOL 1
 
-#if __cplusplus < 201103L
-#  include <bits/c++0x_warning.h>
-#else
-#  include <bits/c++config.h>
-#  if _GLIBCXX_HAVE_STDBOOL_H
-#    include <stdbool.h>
-#  endif
-#endif
+#include <stdbool.h>
 
 #endif 
 
