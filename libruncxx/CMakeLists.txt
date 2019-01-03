@@ -8,4 +8,5 @@ add_library(
   string.cc
   eh_alloc.cc
   eh_globals.cc
+  exit.cc
 )
