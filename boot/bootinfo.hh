@@ -1,8 +1,8 @@
 
 #include <stdint.h>
 
-struct BootInfo {
+struct [[gnu::packed]] BootInfo {
   char *cmdline;
   uint64_t heapStart;
   uint64_t heapEnd;
-}  __attribute__((packed));
+};

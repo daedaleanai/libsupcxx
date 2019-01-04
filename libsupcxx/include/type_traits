@@ -1751,7 +1751,7 @@ namespace std
       union __type
       {
 	unsigned char __data[_Len];
-	struct __attribute__((__aligned__)) { } __align;
+	struct [[gnu::aligned]] { } __align;
       };
     };
 
@@ -1772,7 +1772,7 @@ namespace std
       union type
       {
 	unsigned char __data[_Len];
-	struct __attribute__((__aligned__((_Align)))) { } __align;
+	struct [[gnu::aligned(_Align)]] { } __align;
       };
     };
 

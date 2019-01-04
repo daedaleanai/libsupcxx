@@ -107,28 +107,18 @@ namespace std
  *  Placement new and delete signatures (take a memory address argument,
  *  does nothing) may not be replaced by a user's program.
 */
-void* operator new(std::size_t)
-  __attribute__((__externally_visible__));
-void* operator new[](std::size_t)
-  __attribute__((__externally_visible__));
-void operator delete(void*) noexcept
-  __attribute__((__externally_visible__));
-void operator delete[](void*) noexcept
-  __attribute__((__externally_visible__));
+[[gnu::externally_visible]] void* operator new(std::size_t);
+[[gnu::externally_visible]] void* operator new[](std::size_t);
+[[gnu::externally_visible]] void operator delete(void*) noexcept;
+[[gnu::externally_visible]] void operator delete[](void*) noexcept;
 #if __cpp_sized_deallocation
-void operator delete(void*, std::size_t) noexcept
-  __attribute__((__externally_visible__));
-void operator delete[](void*, std::size_t) noexcept
-  __attribute__((__externally_visible__));
+[[gnu::externally_visible]] void operator delete(void*, std::size_t) noexcept;
+[[gnu::externally_visible]] void operator delete[](void*, std::size_t) noexcept;
 #endif
-void* operator new(std::size_t, const std::nothrow_t&) noexcept
-  __attribute__((__externally_visible__));
-void* operator new[](std::size_t, const std::nothrow_t&) noexcept
-  __attribute__((__externally_visible__));
-void operator delete(void*, const std::nothrow_t&) noexcept
-  __attribute__((__externally_visible__));
-void operator delete[](void*, const std::nothrow_t&) noexcept
-  __attribute__((__externally_visible__));
+[[gnu::externally_visible]] void* operator new(std::size_t, const std::nothrow_t&) noexcept;
+[[gnu::externally_visible]] void* operator new[](std::size_t, const std::nothrow_t&) noexcept;
+[[gnu::externally_visible]] void operator delete(void*, const std::nothrow_t&) noexcept;
+[[gnu::externally_visible]] void operator delete[](void*, const std::nothrow_t&) noexcept;
 
 // Default placement versions of operator new.
 inline void* operator new(std::size_t, void* __p) noexcept

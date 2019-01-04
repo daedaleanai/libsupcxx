@@ -68,7 +68,7 @@ int __cxa_finalize(void *dtor) {
 
 namespace {
 // register the destructor with the runtime
-__attribute__((destructor)) void call_cxa_finalize() {
+[[gnu::destructor]] void call_cxa_finalize() {
   __cxxabiv1::__cxa_finalize(nullptr);
 }
 } // namespace

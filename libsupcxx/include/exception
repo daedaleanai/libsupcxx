@@ -70,7 +70,7 @@ namespace std
 
   /** The runtime will call this function if %exception handling must be
    *  abandoned for any reason.  It can also be called by the user.  */
-  void terminate() noexcept __attribute__ ((__noreturn__));
+  [[noreturn]] void terminate() noexcept;
 
   /// Takes a new handler function as an argument, returns the old function.
   unexpected_handler set_unexpected(unexpected_handler) noexcept;
@@ -80,7 +80,7 @@ namespace std
 
   /** The runtime will call this function if an %exception is thrown which
    *  violates the function's %exception specification.  */
-  void unexpected() __attribute__ ((__noreturn__));
+  [[noreturn]] void unexpected();
 
   /** [18.6.4]/1:  'Returns true after completing evaluation of a
    *  throw-expression until either completing initialization of the
@@ -93,7 +93,7 @@ namespace std
    *  %exception can result in a call of @c terminate()
    *  (15.5.1).'
    */
-  bool uncaught_exception() noexcept __attribute__ ((__pure__));
+  [[gnu::pure]] bool uncaught_exception() noexcept;
   // @} group exceptions
 } // namespace std
 } // extern "C++"

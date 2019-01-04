@@ -131,16 +131,13 @@ struct __cxa_eh_globals
 // Handles re-checking the exception specification if unexpectedHandler
 // throws, and if bad_exception needs to be thrown.  Called from the
 // compiler.
-extern "C" void __cxa_call_unexpected (void *) __attribute__((__noreturn__));
-extern "C" void __cxa_call_terminate (_Unwind_Exception*) noexcept
-  __attribute__((__noreturn__));
+extern "C" [[noreturn]] void __cxa_call_unexpected (void *);
+extern "C" [[noreturn]] void __cxa_call_terminate (_Unwind_Exception*) noexcept;
 
 // Invokes given handler, dying appropriately if the user handler was
 // so inconsiderate as to return.
-extern void __terminate(std::terminate_handler) noexcept
-  __attribute__((__noreturn__));
-extern void __unexpected(std::unexpected_handler)
-  __attribute__((__noreturn__));
+[[noreturn]] extern void __terminate(std::terminate_handler) noexcept;
+[[noreturn]] extern void __unexpected(std::unexpected_handler);
 
 // The current installed user handlers.
 extern std::terminate_handler __terminate_handler;

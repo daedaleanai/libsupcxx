@@ -162,12 +162,11 @@ check_exception_spec(lsda_header_info* info, _throw_typet* throw_type,
 
 static inline void
 save_caught_exception(struct _Unwind_Exception* ue_header,
-		      struct _Unwind_Context* context
-			__attribute__((__unused__)),
+		      struct _Unwind_Context* context [[gnu::unused]],
 		      void* thrown_ptr,
 		      int handler_switch_value,
 		      const unsigned char* language_specific_data,
-		      _Unwind_Ptr landing_pad __attribute__((__unused__)),
+		      _Unwind_Ptr landing_pad [[gnu::unused]],
 		      const unsigned char* action_record)
 {
   __cxa_exception* xh = __get_exception_header_from_ue(ue_header);

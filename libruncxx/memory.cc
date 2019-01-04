@@ -67,7 +67,7 @@ extern "C" void free(void *ptr) {
 extern BootInfo bootInfo;
 
 namespace {
-__attribute__((constructor)) void setUpHeap() {
+[[gnu::constructor]] void setUpHeap() {
   head = (MemChunk*)bootInfo.heapStart;
   head->next = 0;
   head->size = bootInfo.heapEnd - bootInfo.heapStart - sizeof(MemChunk);

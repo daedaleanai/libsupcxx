@@ -74,21 +74,16 @@ namespace __cxxabiv1
   __cxa_finalize(void*);
 
   // Pure virtual functions.
-  void
-  __cxa_pure_virtual(void) __attribute__ ((__noreturn__));
+  [[noreturn]] void __cxa_pure_virtual(void);
 
-  void
-  __cxa_deleted_virtual(void) __attribute__ ((__noreturn__));
+  [[noreturn]] void __cxa_deleted_virtual(void);
 
   // Exception handling auxiliary.
-  void 
-  __cxa_bad_cast() __attribute__((__noreturn__));
+  [[noreturn]] void __cxa_bad_cast();
 
-  void 
-  __cxa_bad_typeid() __attribute__((__noreturn__));
+  [[noreturn]] void __cxa_bad_typeid();
 
-  void
-  __cxa_throw_bad_array_new_length() __attribute__((__noreturn__));
+  [[noreturn]] void __cxa_throw_bad_array_new_length();
   }
 } // namespace __cxxabiv1
 
@@ -484,24 +479,19 @@ namespace __cxxabiv1
   // either of the following functions.  The "fast" version assumes at least
   // one prior call of __cxa_get_globals has been made from the current
   // thread, so no initialization is necessary.
-  __cxa_eh_globals*
-  __cxa_get_globals() noexcept __attribute__ ((__const__));
+  [[gnu::const]] __cxa_eh_globals* __cxa_get_globals() noexcept;
 
-  __cxa_eh_globals*
-  __cxa_get_globals_fast() noexcept __attribute__ ((__const__));
+  [[gnu::const]] __cxa_eh_globals* __cxa_get_globals_fast() noexcept;
 
   // Free the space allocated for the primary exception.
   void
   __cxa_free_exception(void*) noexcept;
 
   // Throw the exception.
-  void
-  __cxa_throw(void*, std::type_info*, void (*) (void *))
-  __attribute__((__noreturn__));
+  [[noreturn]] void __cxa_throw(void*, std::type_info*, void (*) (void *));
 
   // Used to implement exception handlers.
-  void*
-  __cxa_get_exception_ptr(void*) noexcept __attribute__ ((__pure__));
+  [[gnu::pure]] void* __cxa_get_exception_ptr(void*) noexcept;
 
   void*
   __cxa_begin_catch(void*) noexcept;
@@ -509,13 +499,11 @@ namespace __cxxabiv1
   void
   __cxa_end_catch();
 
-  void
-  __cxa_rethrow() __attribute__((__noreturn__));
+  [[gnu::pure]] void __cxa_rethrow();
 
   // Returns the type_info for the currently handled exception [15.3/8], or
   // null if there is none.
-  std::type_info*
-  __cxa_current_exception_type() noexcept __attribute__ ((__pure__));
+  [[gnu::pure]] std::type_info* __cxa_current_exception_type() noexcept;
 
   } // extern "C"
 

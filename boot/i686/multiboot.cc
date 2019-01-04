@@ -4,12 +4,12 @@
 
 #define MULTIBOOT_MEMORY_AVAILABLE 1
 
-struct MbMmapEntry {
+struct [[gnu::packed]] MbMmapEntry {
   uint32_t size;
   uint64_t addr;
   uint64_t len;
   uint32_t type;
-} __attribute__((packed));
+};
 
 struct MbInfo {
   uint32_t stuff1[4];
