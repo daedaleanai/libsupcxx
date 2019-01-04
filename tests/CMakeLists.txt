@@ -17,6 +17,7 @@ list(APPEND tests trivial-exception)
 list(APPEND tests throw-clean-up-rethrow)
 list(APPEND tests ccompat)
 list(APPEND tests numeric-limits)
+list(APPEND tests type-traits)
 
 list(LENGTH tests test_length)
 math(EXPR test_bound ${test_length}-1)
