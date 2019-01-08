@@ -56,6 +56,12 @@ _start:
   call _parseMultiboot
   add $8, %esp
 
+  // Set up the protected mode and page tables
+  mov $bootInfo, %eax
+  push %eax
+  call _systemSetup
+  add $4, %esp
+
   // Run the global constructors
   call _init
 

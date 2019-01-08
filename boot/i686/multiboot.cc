@@ -35,7 +35,18 @@ extern "C" void _parseMultiboot(uint32_t magic, MbInfo *info) {
     if(mmap[i].type != MULTIBOOT_MEMORY_AVAILABLE) {
       continue;
     }
-    if (!hasLargest || len < mmap[i].len) {
+
+    // 32-bits
+    if (mmap[i].addr >= 0xffffffff) {
+      continue;
+    }
+
+    uint64_t trimmedLen = mmap[i].len;
+    if (mmap[i].addr + mmap[i].len > 0xffffffff) {
+      trimmedLen = 0xffffffff - mmap[i].addr;
+    }
+
+    if (!hasLargest || len < trimmedLen) {
       hasLargest = true;
       addr = mmap[i].addr;
       len = mmap[i].len;
@@ -59,12 +70,14 @@ extern "C" void _parseMultiboot(uint32_t magic, MbInfo *info) {
     addr = kernelEnd;
   }
 
-  // Align the boundary to 64 bits
-  addr = (((addr-1)>>3)<<3)+8;
+  // Align the boundaries to 4MB
+  addr = (((addr-1)>>22)<<22)+0x400000;
 
   if (addr >= memEnd) {
     return;
   }
+
+  memEnd = (((memEnd-1)>>23)<<23);
 
   bootInfo.heapStart = addr;
   bootInfo.heapEnd = memEnd;
