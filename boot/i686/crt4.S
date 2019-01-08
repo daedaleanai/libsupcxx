@@ -1,3 +1,4 @@
+
 .section .init
   popl %ebp
   ret
