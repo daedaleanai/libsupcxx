@@ -65,4 +65,13 @@ void main(const char *cmdline) {
   io::printf("--- Object array construct->destruct-parent (nothrow) ---\n");
   interfaces = new (std::nothrow) Impl2[2];
   delete [] interfaces;
+
+  io::printf("--- Large array of basic types->destruct ---\n");
+  uint64_t *large = new (std::nothrow) uint64_t[8000000];
+  io::printf("Address: %x\n", large);
+  for(size_t i = 0; i < 8000000; ++i) {
+    large[i] = 0;
+  }
+  io::printf("Cleared up the memory\n");
+  delete [] large;
 }
