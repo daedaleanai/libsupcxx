@@ -29,11 +29,11 @@
 namespace {
 struct MemChunk {
   MemChunk *next;
-  uint32_t  size;
+  uint64_t  size;
 };
 
 static MemChunk *head = 0;
-const uint32_t MEMCHUNK_USED = 0x80000000;
+const uint64_t MEMCHUNK_USED = 0x8000000000000000;
 }
 
 extern "C" void *malloc(size_t size) {
