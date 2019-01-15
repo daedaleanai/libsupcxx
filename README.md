@@ -42,7 +42,8 @@ like the command below to build it for the desired platform.
 
 Currently supported platforms are:
 
- * i686-elf
+ * `i686-elf`
+ * `x86_64-elf`
 
 After the installation process is complete, you will need to add the
 installation binary path to your shell's search path:
@@ -95,6 +96,20 @@ terminal window:
     (gdb) p cmdline
     $1 = 0x100043 <_start+40> "tests/test-07-throw-clean-up-rethrow.elf"
 
+Notes
+-----
+
+#### Running Elf64 bit kernels with qemu ####
+
+Qemu checks if the kernel being loaded is an Elf 64 binary and, if it is, qemu
+will refuse to load it for no good reason whatsoever. The qemu team decided long
+ago to add this check to make the project feature compatible with GRUB. Even
+though the feature worked perfectly fine in the first place and both GRUB and
+syslinux can now load 64 bit kernels, this check has not yet been removed in any
+released version. The `patches` directory contains a fix should you wish to
+rebuild qemu from source. See [this][qemu-bug] launchpad ticket.
+
 [frstd]: https://en.cppreference.com/w/cpp/freestanding
 [gpl]: https://www.gnu.org/licenses/gpl-3.0.en.html
 [gcc-rt-exp]: https://www.gnu.org/licenses/gcc-exception-3.1.en.html
+[qemu-bug]: https://bugs.launchpad.net/qemu/+bug/1811888
