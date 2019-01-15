@@ -1,0 +1,28 @@
+From 09910c4d743243421afeb473e02e81be315ec0c7 Mon Sep 17 00:00:00 2001
+From: Lukasz Janyst <lj@ddln.ai>
+Date: Sat, 12 Jan 2019 09:16:50 +0100
+Subject: [PATCH] hw/i386/multiboot.c: Don't refuse to boot ELF64 binaries
+
+---
+ hw/i386/multiboot.c | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/hw/i386/multiboot.c b/hw/i386/multiboot.c
+index 62340687e8..6e30f0243e 100644
+--- a/hw/i386/multiboot.c
++++ b/hw/i386/multiboot.c
+@@ -194,11 +194,6 @@ int load_multiboot(FWCfgState *fw_cfg,
+         int kernel_size;
+         fclose(f);
+ 
+-        if (((struct elf64_hdr*)header)->e_machine == EM_X86_64) {
+-            error_report("Cannot load x86-64 image, give a 32bit one.");
+-            exit(1);
+-        }
+-
+         kernel_size = load_elf(kernel_filename, NULL, NULL, &elf_entry,
+                                &elf_low, &elf_high, 0, I386_ELF_MACHINE,
+                                0, 0);
+-- 
+2.20.1
+
