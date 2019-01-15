@@ -68,7 +68,11 @@ void main(const char *cmdline) {
 
   io::printf("--- Large array of basic types->destruct ---\n");
   uint64_t *large = new (std::nothrow) uint64_t[8000000];
-  io::printf("Address: %x\n", large);
+  if (sizeof(int*) == 4) {
+    io::printf("Address: %x\n", large);
+  } else {
+    io::printf("Address: %llx\n", large);
+  }
   for(size_t i = 0; i < 8000000; ++i) {
     large[i] = 0;
   }
