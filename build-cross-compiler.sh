@@ -79,7 +79,7 @@ TEMPDIR=`mktemp -d`;
   progress "[i] Building libgcc" make -j4  all-target-libgcc;
   progress "[i] Installing gcc" make install-gcc;
   progress "[i] Installing libgcc" make install-target-libgcc;
-  progress "[i] Installing unwind-pe.h" cp ../gcc-${GCCVER}/libgcc/unwind-pe.h ${PREFIX}/lib/gcc/i686-elf/${GCCVER}/include
+  progress "[i] Installing unwind-pe.h" cp ../gcc-${GCCVER}/libgcc/unwind-pe.h ${PREFIX}/lib/gcc/${TARGET}/${GCCVER}/include
   echo;
   highlight "[i] Installation successfull. Add the following to your shell profile:";
   echo "[i] export PATH=${PREFIX}/bin:\$PATH";
