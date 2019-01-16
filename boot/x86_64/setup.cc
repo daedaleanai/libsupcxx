@@ -118,8 +118,8 @@ extern "C" void _systemSetup(BootInfo *info) {
 
   // Map huge pages as long as we can
   for (pdptIndex = (addr >> 30) & 0x1ff;
-       addr + 0x40000000 < info->heapEnd && pdtIndex < 512;
-       addr += 0x40000000) {
+       addr + 0x40000000 <= info->heapEnd && pdptIndex < 512;
+       addr += 0x40000000, ++pdptIndex) {
     pdpt[pdptIndex] = addr | PAGE_FLAGS;
   }
 
