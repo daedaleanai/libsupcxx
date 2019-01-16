@@ -70,7 +70,8 @@ PDT:
 .skip 4094 // 4 KiB
 
 //------------------------------------------------------------------------------
-// 64 bit global segment descriptor table
+// 64 bit global segment descriptor table - see section 4.8 of the AMD64
+// Architecture Programmer’s Manual, Volume 2: System Programming
 //------------------------------------------------------------------------------
 .section .data
 GDT64:
@@ -203,7 +204,7 @@ _start64:
   movl MultibootPtr, %esi
   call _parseMultiboot
 
-  // Set up the protected mode and page tables
+  // Run the configuration necessary to set the platrofm up
   mov $bootInfo, %rdi
   call _systemSetup
 

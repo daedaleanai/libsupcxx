@@ -52,9 +52,8 @@ extern "C" void _systemSetup(BootInfo *info) {
     "or $0x00000600, %eax\n\t"  // enable SSE and SSE exceptions
     "mov %eax, %cr4\n\t");      // the OSFXSR and OSXMMEXCPT bits
 
-  // Set up the page allocator and identity map the heap if we have at least
-  // 2MB of it as that's the smallest we can fit into a PAE+PSE page directory
-  // entry.
+  // Identity map the heap if we have at least 2MB of it as that's the smallest
+  // we can fit into a PAE+PSE page directory entry.
   if (info->heapStart == 0 || info->heapEnd - info->heapStart < 0x00200000) {
     info->heapStart = 0;
     info->heapEnd = 0;
