@@ -35,10 +35,11 @@ extern "C" void _systemSetup(BootInfo *info) {
 
   // Identity page the whole memory
   pageDirectory[0] = 0x83;
-  for (uint32_t addr = (uint32_t)info->heapStart, i = 1;
-       addr < (uint32_t)info->heapEnd && i < 1024;
+  for (uint32_t addr = (uint32_t)info->heapStart;
+       addr < (uint32_t)info->heapEnd;
        addr += 0x400000) {
-    pageDirectory[i++] = addr | 0x83;
+    uint32_t i = (addr >> 22) & 0x3ff;
+    pageDirectory[i] = addr | 0x83;
   }
 
   // Load the page directory into cr3
