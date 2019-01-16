@@ -38,13 +38,13 @@ const uint64_t MEMCHUNK_USED = 0x8000000000000000;
 
 extern "C" void *malloc(size_t size) {
   // We don't allocate chunks this big
-  if (head == 0 || size > 0x7fffffff) {
+  if (head == 0 || size > 0x7fffffffffffffff) {
     return nullptr;
   }
 
   // Allocating anything less than 8 bytes is kind of pointless, the
   // book-keeping overhead is too big. We will also align to 4 bytes.
-  uint32_t allocSize = (((size-1)>>2)<<2)+4;
+  uint64_t allocSize = (((size-1)>>2)<<2)+4;
   if (allocSize < 8) {
     allocSize = 8;
   }
