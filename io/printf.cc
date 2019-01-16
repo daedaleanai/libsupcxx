@@ -64,11 +64,17 @@ uint32_t printNumStr(char *str, uint64_t num, int base) {
   return len;
 }
 
-int32_t printNum(uint64_t num, int base) {
+int32_t printNum(uint64_t num, int base, int padZeros = 0) {
   char buffer[64];
   uint32_t len = printNumStr(buffer, num, base);
+  int pad = 0;
+  if(padZeros) {
+    for(pad = 0; pad < padZeros-len; ++pad) {
+      io::vgaTerminalPutChar('0');
+    }
+  }
   io::vgaTerminalWrite(buffer, len);
-  return len;
+  return len + pad;
 }
 
 int32_t printNumS(int64_t num) {
@@ -174,6 +180,11 @@ int32_t printf(const char *format, ...) {
         size_t slen = strlen(str);
         vgaTerminalWrite(str, slen);
         written += slen;
+      } else if(*cursor == 'p') {
+        uint64_t num = (uint64_t)va_arg(ap, int*);
+        vgaTerminalWrite("0x", 2);
+        ret = printNum(num, 16, 2*sizeof(int*));
+        written += ret + 2;
       } else {
         while(*cursor == 'l') {
           ++sz;
