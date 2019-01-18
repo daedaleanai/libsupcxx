@@ -36,11 +36,11 @@ Ubuntu using the following command:
 
 This distribution provides a convenience shell script that can help with the
 building and installation process of the cross-compiler itself. Run something
-like the command below to build it for the desired platform.
+like the command below to build it for the desired architecture.
 
-    ./build-cross-compiler.sh <installation-path> <platform>
+    ./build-cross-compiler.sh <installation-path> <architecture>
 
-Currently supported platforms are:
+Currently supported architectures are:
 
  * `i686-elf`
  * `x86_64-elf`
@@ -54,10 +54,13 @@ Finally, you can build the whole thing using CMake:
 
     mkdir build
     cd build
-    cmake .. -DTOOLCHAIN_NAME=<platform>
+    cmake .. -DPLATFORM_NAME=<platform>
     make
 
-where platform is the same as above.
+where platform is one of the names below:
+
+ * `i686` - requires a `i686-elf` toolchain
+ * `x86_64` - requires a `x86_64` toolchain
 
 Running and debugging
 ---------------------
