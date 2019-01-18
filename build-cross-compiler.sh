@@ -2,6 +2,7 @@
 
 GCCVER=8.2.0
 BINUTILSVER=2.31.1
+GDBVER=8.2.1
 
 function error() {
   echo -e "\033[1;31m$@\\033[0m";
@@ -60,6 +61,8 @@ TEMPDIR=`mktemp -d`;
 
   progress "[i] Donwloading binutils" wget http://ftp.gnu.org/gnu/binutils/binutils-${BINUTILSVER}.tar.bz2;
   progress "[i] Downloading gcc" wget ftp://ftp.fu-berlin.de/unix/languages/gcc/releases/gcc-${GCCVER}/gcc-${GCCVER}.tar.xz;
+  progress "[i] Downloading gdb" wget https://ftp.gnu.org/gnu/gdb/gdb-${GDBVER}.tar.xz;
+
   progress "[i] Unpacking binutils" tar jxf binutils-${BINUTILSVER}.tar.bz2;
   mkdir binutils-build;
   cd binutils-build;
@@ -80,6 +83,15 @@ TEMPDIR=`mktemp -d`;
   progress "[i] Installing gcc" make install-gcc;
   progress "[i] Installing libgcc" make install-target-libgcc;
   progress "[i] Installing unwind-pe.h" cp ../gcc-${GCCVER}/libgcc/unwind-pe.h ${PREFIX}/lib/gcc/${TARGET}/${GCCVER}/include
+
+  cd ..;
+  progress "[i] Unpacking gdb" tar xf gdb-${GDBVER}.tar.xz;
+  mkdir gdb-build;
+  cd gdb-build;
+  progress "[i] Configuring gdb" ../gdb-${GDBVER}/configure --target=${TARGET} --prefix=${PREFIX}
+  progress "[i] Building gdb" make -j 4;
+  progress "[i] Installing gdb" make install;
+
   echo;
   highlight "[i] Installation successfull. Add the following to your shell profile:";
   echo "[i] export PATH=${PREFIX}/bin:\$PATH";
