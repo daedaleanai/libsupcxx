@@ -50,12 +50,12 @@ function(add_kernel)
     )
 
   add_executable(
-    ${add_kernel_NAME}
+    ${add_kernel_NAME}.elf
     ${add_kernel_NAME}-fake.c
     )
 
   target_link_libraries(
-    ${add_kernel_NAME}
+    ${add_kernel_NAME}.elf
     -Wl,--whole-archive
     boot_first
     -Wl,--no-whole-archive
@@ -66,6 +66,13 @@ function(add_kernel)
     -Wl,--whole-archive
     boot_last
     -Wl,--no-whole-archive
-
     )
+
+  add_custom_command(
+    OUTPUT ${add_kernel_NAME}.hex
+    COMMAND ${CMAKE_OBJCOPY} -O binary ${add_kernel_NAME}.elf ${add_kernel_NAME}.hex
+    DEPENDS ${add_kernel_NAME}.elf
+    COMMENT "Creating raw binary ${add_kernel_NAME}.hex")
+
+  add_custom_target(${add_kernel_NAME}.hex-target ALL DEPENDS ${add_kernel_NAME}.hex)
 endfunction(add_kernel)
