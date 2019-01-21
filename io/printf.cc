@@ -22,7 +22,7 @@
 //------------------------------------------------------------------------------
 
 #include "printf.hh"
-#include "vga.hh"
+#include "io.hh"
 #include "string.hh"
 
 #include <stdarg.h>
@@ -70,10 +70,10 @@ int32_t printNum(uint64_t num, int base, int padZeros = 0) {
   int pad = 0;
   if(padZeros) {
     for(pad = 0; pad < padZeros-len; ++pad) {
-      io::vgaTerminalPutChar('0');
+      io::putString("0");
     }
   }
-  io::vgaTerminalWrite(buffer, len);
+  io::putString(buffer, len);
   return len + pad;
 }
 
@@ -89,7 +89,7 @@ int32_t printNumS(int64_t num) {
     ++len;
   }
   len += printNumStr(ptr, num, 10);
-  io::vgaTerminalWrite(buffer, len);
+  io::putString(buffer, len);
   return len;
 }
 
@@ -141,11 +141,11 @@ uint32_t printFloat(double num) {
       i = 12-len;
     }
     len += i;
-    io::vgaTerminalWrite(buffer, i);
+    io::putString(buffer, i);
   }
 
   if(exponent) {
-    io::vgaTerminalWrite("e", 1);
+    io::putString("e");
     len += printNumS(exponent);
   }
   return len;
@@ -168,7 +168,7 @@ int32_t printf(const char *format, ...) {
   va_start(ap, format);
   while(*cursor) {
     if(*cursor == '%') {
-      vgaTerminalWrite(start, length);
+      putString(start, length);
       written += length;
       ++cursor;
       if(*cursor == 0) {
@@ -178,11 +178,11 @@ int32_t printf(const char *format, ...) {
       if(*cursor == 's') {
         const char *str = va_arg(ap, const char*);
         size_t slen = strlen(str);
-        vgaTerminalWrite(str, slen);
+        putString(str, slen);
         written += slen;
       } else if(*cursor == 'p') {
         uint64_t num = (uint64_t)va_arg(ap, int*);
-        vgaTerminalWrite("0x", 2);
+        putString("0x");
         ret = printNum(num, 16, 2*sizeof(int*));
         written += ret + 2;
       } else {
@@ -251,7 +251,7 @@ int32_t printf(const char *format, ...) {
     ++cursor;
   }
   if(length) {
-    vgaTerminalWrite(start, length);
+    putString(start, length);
     written += length;
   }
   va_end (ap);

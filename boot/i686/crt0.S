@@ -56,6 +56,7 @@ stack_bottom:
 stack_top:
 
 .global bootInfo
+.global _initIo
 
 //------------------------------------------------------------------------------
 // The entry point to the kernel
@@ -73,9 +74,14 @@ _start:
   push %ebp // ebp=0
   movl %esp, %ebp
 
-  // Load the multiboot parameters on the stack and call the parser
+  // Stash the multiboot parameters on the stack
   push %ebx
   push %eax
+
+  // Initialize the IO
+  call _initIo
+
+  // Load the multiboot parameters on the stack and call the parser
   call _parseMultiboot
   add $8, %esp
 

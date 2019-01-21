@@ -58,11 +58,14 @@ function(add_kernel)
     ${add_kernel_NAME}
     -Wl,--whole-archive
     boot_first
-    boot_last
     -Wl,--no-whole-archive
     ${add_kernel_LIBS}
     supcxx
     gcc
     runcxx
+    -Wl,--whole-archive
+    boot_last
+    -Wl,--no-whole-archive
+
     )
 endfunction(add_kernel)

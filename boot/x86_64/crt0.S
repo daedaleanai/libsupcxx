@@ -179,6 +179,8 @@ _start:
 //------------------------------------------------------------------------------
 .code64
 
+.global _initIo
+
 .section .text
 .global _start64
 .type _start64, @function
@@ -196,6 +198,9 @@ _start64:
   pushq %rbp  // rip=0
   pushq %rbp  // ebp=0
   mov %rsp, %rbp
+
+  // Initialize the IO
+  call _initIo
 
   // Load the multiboot parameters on to the registers and call the parser
   xor %rdi, %rdi

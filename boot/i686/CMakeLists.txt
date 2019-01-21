@@ -15,4 +15,5 @@ add_library(
   boot_last STATIC
   ${CRT3}
   crt4.S
+  io.cc
   )
