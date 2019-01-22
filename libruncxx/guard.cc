@@ -25,9 +25,11 @@
 #include "../libsupcxx/src/exception_defines.h"
 #include "../libsupcxx/src/cxxabi.h"
 
+#if __cpp_exceptions
 namespace __gnu_cxx {
   recursive_init_error::~recursive_init_error() noexcept { }
 }
+#endif
 
 // See: https://itanium-cxx-abi.github.io/cxx-abi/abi.html#once-ctor
 // The implementation below is not really compliant, because the GNU library
