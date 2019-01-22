@@ -23,6 +23,11 @@
 
 #pragma once
 
+#include <cstddef>
+
 namespace io {
 extern "C" size_t strlen(const char* str);
+const char *strstr(const char *haystack, const char *needle);
+unsigned long strtoul(const char *nptr, const char **endptr, int base);
+
 } // namespace io
