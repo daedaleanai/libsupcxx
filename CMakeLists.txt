@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.8)
 
 set(PLATFORM_NAME "i686" CACHE STRING "Platform name defaulting to 'i686'")
-set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/${PLATFORM_NAME}.cmake)
+set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/boot/${PLATFORM_NAME}/toolchain.cmake)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 set(CMAKE_BUILD_TYPE Debug CACHE STRING "" FORCE)
