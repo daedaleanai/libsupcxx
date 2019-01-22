@@ -2,7 +2,7 @@
 function(add_test name)
   add_library(${name} ${name}.cc)
   add_kernel(
-    NAME ${name}.elf
+    NAME ${name}
     LIBS ${name} io
     )
 endfunction()
