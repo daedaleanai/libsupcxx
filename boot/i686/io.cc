@@ -101,3 +101,7 @@ extern "C" void _putChar(char c) {
     }
   }
 }
+
+extern "C" void abort() {
+  asm volatile("hlt");
+}

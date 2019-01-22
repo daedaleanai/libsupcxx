@@ -23,9 +23,11 @@
 
 #include "../libsupcxx/src/cxxabi.h"
 
+extern "C" void abort();
+
 extern "C" void exit() noexcept {
   __cxxabiv1::__cxa_finalize(nullptr);
-  asm volatile ("hlt");
+  abort();
 }
 
 typedef void (*atExitFn)(void*);
