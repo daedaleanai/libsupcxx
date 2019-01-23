@@ -62,7 +62,7 @@ extern "C" void _systemSetup(BootInfo *info) {
 
     // Figure out where our memory ends - this is where the videocore memory
     // starts. At leas I thinks so. Could not find any docs.
-    vcBase += io::strlen("vc_mem.mem_base=") + 2; // name + '0x'
+    vcBase += io::strlen("vc_mem.mem_base="); // name
     const char *ptr = vcBase;
     uint64_t heapEnd = io::strtoul(vcBase, &ptr, 16);
     if (ptr != vcBase && *ptr == ' ') {
@@ -72,6 +72,7 @@ extern "C" void _systemSetup(BootInfo *info) {
 
   // Align the heap to 16 bytes
   info->heapStart = (((info->heapStart-1)>>4)<<4)+16;
+  info->heapEnd = (((info->heapEnd-1)>>4)<<4);
 }
 
 // See: C++ Application Binary Interface Standard for the ARM 64-bit
