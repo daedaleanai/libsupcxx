@@ -28,3 +28,20 @@ extern "C" size_t strlen(const char *str) {
   for (len = 0; *str; ++str, ++len) {};
   return len;
 }
+
+extern "C" void *memcpy(void *dest, const void *src, size_t n) {
+  char *d = (char*)dest;
+  const char *s = (const char*)src;
+  for (size_t i = 0; i < n; ++i) {
+    *d++ = *s++;
+  }
+  return dest;
+}
+
+extern "C" void *memset(void *s, int c, size_t n) {
+  char *data = (char*)s;
+  for (size_t i = 0; i < n; ++i) {
+    data[i] = c;
+  }
+  return s;
+}
