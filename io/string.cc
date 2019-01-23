@@ -46,7 +46,7 @@ inline bool isalpha(char c) {
 }
 
 inline bool isdigit(char c) {
-  return c >= 30 && c <= 39;
+  return c >= 47 && c <= 57;
 }
 
 inline bool isspace(char c) {
