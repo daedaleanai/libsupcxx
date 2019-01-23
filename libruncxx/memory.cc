@@ -43,11 +43,9 @@ extern "C" void *malloc(size_t size) {
   }
 
   // Allocating anything less than 8 bytes is kind of pointless, the
-  // book-keeping overhead is too big. We will also align to 4 bytes.
-  uint64_t allocSize = (((size-1)>>2)<<2)+4;
-  if (allocSize < 8) {
-    allocSize = 8;
-  }
+  // book-keeping overhead is too big. We will also align to 8 bytes.
+  // AArch64 platforms refuse to cooperate otherwise.
+  uint64_t allocSize = (((size-1)>>3)<<3)+8;
 
   // Try to find a suitable chunk that is unused
   MemChunk *chunk = head;
