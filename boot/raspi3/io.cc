@@ -32,7 +32,8 @@
 #define AUX_MU_LCR_REG  (*(volatile uint32_t*)0x3f21504c)
 #define AUX_MU_IIR_REG  (*(volatile uint32_t*)0x3f215048)
 #define AUX_MU_BAUD     (*(volatile uint32_t*)0x3f215068)
-#define GPSEL1          (*(volatile uint32_t*)0x3f200004)
+#define GPFSEL1         (*(volatile uint32_t*)0x3f200004)
+#define GPFSEL2         (*(volatile uint32_t*)0x3f200008)
 #define GPPUD           (*(volatile uint32_t*)0x3f200094)
 #define GPPUDCLK0       (*(volatile uint32_t*)0x3f200098)
 #define AUX_MU_LSR_REG  (*(volatile uint32_t*)0x3f215054)
@@ -54,10 +55,10 @@ extern "C" void _initIo() {
                           // 115200 baud => reg = 270 because clock is 250MHz
 
   // GPIO
-  register uint32_t tmp = GPSEL1;
+  register uint32_t tmp = GPFSEL1;
   tmp &= ~(7 << 12);      // clear alt selection for gpio14 - we only TX
   tmp |= 2 << 12;         // alt5 for gpio14 - MiniUART
-  GPSEL1 = tmp;
+  GPFSEL1 = tmp;
 
   GPPUD = 0;              // disable pull ups/downs
   DO_NOTHING(150);        // do nothing for a couple of cycles to provide the
@@ -68,6 +69,19 @@ extern "C" void _initIo() {
   GPPUDCLK0 = 0;          // remove the clock
 
   AUX_MU_CNTL_REG = 0x2;  // Enable TX
+
+  // JTAG
+  tmp = GPFSEL2;
+  tmp &= 0xff00003f;      // clear alternative selection for gpios 22 through 27
+  tmp |= 0x006db6c0;      // alternative function 4-JTAG for gpios 22 through 27
+  GPFSEL2 = tmp;
+  GPPUD = 0;              // disable pull ups/downs
+  DO_NOTHING(150);        // do nothing for a couple of cycles to provide the
+                          // required set up time for the control signal
+  GPPUDCLK0 = 0x0fc00000; // clock the control signal into gpios 22 through 27
+  DO_NOTHING(150);        // do nothing to provide the required hold time for
+                          // the control signal
+  GPPUDCLK0 = 0;          // remove the clock
 }
 
 extern "C" void _putChar(char c) {
