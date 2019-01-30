@@ -45,13 +45,63 @@ _start:
                     // Affinity Register to x1 (Cortex-A53 spec section 4.3.2)
   and x1, x1, #0x3  // x1 = x1 & 0x3 - the first two bits indicate the current
                     // core id
-  cbz x1, run       // Don't get into the infinit loop below if we're running
+  cbz x1, run_el2   // Don't get into the infinit loop below if we're running
                     // on core #0
 loop:
   wfe               // Wait for event - an interrupt or whatever
   b loop            // Handled the interrupt? Fine. Wait for another one.
 
-run:
+//------------------------------------------------------------------------------
+// Hypervisor mode (EL2)
+//------------------------------------------------------------------------------
+run_el2:
+  // Set up the stack for EL1
+  ldr x1, =stackTop
+  msr sp_el1, x1
+
+  // Provides the values of the virtualization versions of the processor id
+  // registers. These are the value returned by non-secure EL1 reads of of
+  // midr_el1 and mpidr_el1.
+  mrs x0, midr_el1
+  mrs x1, mpidr_el1
+  msr vpidr_el2, x0
+  msr vmpidr_el2, x1
+
+  // Disable trapping to hypervisor for accesses to CPACR, Trace functionality
+  // and registers associated with Advanced SIMD and Floating-point execution.
+  mov x0, #0x33ff
+  msr cptr_el2, x0
+
+  // Don't trap floating point to EL1 from EL0 or EL1
+  mov x0, #3 << 20
+  msr cpacr_el1, x0
+
+  // Make EL1 AArch64
+  mov x0, #(1 << 31)
+  msr hcr_el2, x0
+
+  // Set up the system for EL1 - Res1 bits to 1, res0 bits to 0 and all other
+  // bits to 0. Movk - move 16-bit immediate into register, keeping other bits
+  // unchanged, do logical shift left (lsl).
+  mov x0, #0x0800
+  movk x0, #0x30d0, lsl #16
+  msr sctlr_el1, x0
+
+  // Set up the saved program status register, these will get set up as the
+  // program status when the exception returns. We take the stack pointer from
+  // sp_el1.
+  mov x0, #0x5
+  msr spsr_el2, x0
+
+  // Where to jump on return
+  ldr x0, =run_el1
+  msr elr_el2, x0
+  eret
+
+//------------------------------------------------------------------------------
+// OS Mode (EL1)
+//------------------------------------------------------------------------------
+run_el1:
   // Clear the frame pointer and the link register (eor == xor)
   eor x30, x30, x30
   eor x29, x29, x29
@@ -65,10 +115,6 @@ bssLoopStart:
   str xzr, [x1], #8
   b bssLoopStart
 bssLoopEnd:
-
-  // Set up the stack
-  ldr x1, =stackTop
-  mov sp, x1
 
   bl _initIo
 
