@@ -23,7 +23,6 @@ add_library(
   eh_aux_runtime.cc
   hash_bytes.cc
   tinfo.cc
-  tinfo2.cc
 
   array_type_info.cc
   class_type_info.cc

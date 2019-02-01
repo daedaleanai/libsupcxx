@@ -65,15 +65,8 @@ namespace __cxxabiv1
 // The libsupcxx code is meant for static, single binary programs. We can
 // always merge typeinfo names in that case. Therefore, the
 // __GXX_MERGED_TYPEINFO_NAMES and the corresponding code have been deleted.
-
-// By default follow the old inline rules to avoid ABI changes.
-#ifndef __GXX_TYPEINFO_EQUALITY_INLINE
-  #if !__GXX_WEAK__
-    #define __GXX_TYPEINFO_EQUALITY_INLINE 0
-  #else
-    #define __GXX_TYPEINFO_EQUALITY_INLINE 1
-  #endif
-#endif
+// Futhrermore, __GXX_TYPEINFO_EQUALITY_INLINE seems to be only required
+// by ARM <= v7. We're only interested in v8+.
 
 namespace std
 {
@@ -97,13 +90,6 @@ namespace std
     const char* name() const noexcept
     { return __name[0] == '*' ? __name + 1 : __name; }
 
-#if !__GXX_TYPEINFO_EQUALITY_INLINE
-    // In old abi, or when weak symbols are not supported, there can
-    // be multiple instances of a type_info object for one
-    // type. Uniqueness must use the _name value, not object address.
-    bool before(const type_info& __arg) const noexcept;
-    bool operator==(const type_info& __arg) const noexcept;
-#else
     // On some targets we can rely on type_info's NTBS being unique,
     // and therefore address comparisons are sufficient.
     bool before(const type_info& __arg) const noexcept
@@ -111,7 +97,7 @@ namespace std
 
     bool operator==(const type_info& __arg) const noexcept
     { return __name == __arg.__name; }
-#endif
+
     bool operator!=(const type_info& __arg) const noexcept
     { return !operator==(__arg); }
 

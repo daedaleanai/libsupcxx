@@ -29,17 +29,6 @@ std::type_info::
 ~type_info ()
 { }
 
-#if !__GXX_TYPEINFO_EQUALITY_INLINE
-
-// We can't rely on common symbols being shared between shared objects.
-bool std::type_info::
-operator== (const std::type_info& arg) const noexcept
-{
-  return name () == arg.name ();
-}
-
-#endif
-
 namespace std {
 
 // return true if this is a type_info for a pointer type
