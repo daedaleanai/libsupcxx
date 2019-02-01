@@ -44,6 +44,7 @@ Currently supported architectures are:
 
  * `i686-elf`
  * `x86_64-elf`
+ * `aarch64-elf`
 
 After the installation process is complete, you will need to add the
 installation binary path to your shell's search path:
@@ -59,8 +60,9 @@ Finally, you can build the whole thing using CMake:
 
 where platform is one of the names below:
 
- * `i686` - requires a `i686-elf` toolchain
- * `x86_64` - requires a `x86_64` toolchain
+ * `i686` - requires an `i686-elf` toolchain
+ * `x86_64` - requires an `x86_64-elf` toolchain
+ * `raspi3` - requires an `aarch64-elf` toolchain
 
 Running and debugging
 ---------------------
@@ -81,7 +83,7 @@ Run `qemu` in one terminal window:
     qemu-system-i386 -S -s -kernel tests/test-07-throw-clean-up-rethrow.elf
 
 The `-s` parameter is a shorthand for `-gdb tcp::1234` and will start a GDB
-server at `localhost:1234`, '-S' tells `qemu` to not start the virtual CPU,
+server at `localhost:1234`, `-S` tells `qemu` to not start the virtual CPU,
 but to wait for the monitor (GDB) to start it. You can then run gdb in another
 terminal window:
 
@@ -98,6 +100,25 @@ terminal window:
     62        int test = one();
     (gdb) p cmdline
     $1 = 0x100043 <_start+40> "tests/test-07-throw-clean-up-rethrow.elf"
+
+#### RaspberryPi 3 ####
+
+At the time of writing this file, the released `aarch64` version of `qemu` does
+not support the RaspberryPi3. However, the support has been included in the head
+of the git repo. If you want to run the examples with the debugger in `qemu`,
+you will need to get the sources from [here][qemu-git] and compile them
+yourself.
+
+Furthermore, `qemu`'s bootloader won't load ELF binaries. Therefore, you will
+need to use tha raw equivalent (the `.hex` instead of the `.elf` files). Note
+that, regardless of what the bootloader accepts, `gdb` will still need `.elf`.
+We also print to UART not to the frambuffer, so you need to tell `qemu` to
+forward the MiniUART to standard output.
+
+    qemu-system-aarch64  -M raspi3                       \
+        -kernel tests/test-07-throw-clean-up-rethrow.hex \
+        -append "Kernel commandline params go here"      \
+        -serial null -serial stdio
 
 Notes
 -----
@@ -116,3 +137,4 @@ rebuild qemu from source. See [this][qemu-bug] launchpad ticket.
 [gpl]: https://www.gnu.org/licenses/gpl-3.0.en.html
 [gcc-rt-exp]: https://www.gnu.org/licenses/gcc-exception-3.1.en.html
 [qemu-bug]: https://bugs.launchpad.net/qemu/+bug/1811888
+[qemu-git]: https://github.com/qemu/qemu
