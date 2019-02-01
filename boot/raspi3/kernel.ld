@@ -42,9 +42,9 @@ SECTIONS
    *--------------------------------------------------------------------------*/
   .rodata : ALIGN(16)
   {
-    SORT(*libboot_first.a:*)(.eh_frame)
-    EXCLUDE_FILE(*libboot_last.a:*) *(.eh_frame)
-    SORT(*libboot_last.a:*)(.eh_frame)
+    *libboot_first.a:crt2*(.eh_frame)
+    EXCLUDE_FILE(*libboot_last.a:crt3*) *(.eh_frame)
+    SORT(*libboot_last.a:crt3*)(.eh_frame)
     *(.gcc_except_table)
 
     /* These need to be 8-byte aligned */
