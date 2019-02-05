@@ -62,7 +62,7 @@ std::unexpected ()
 std::terminate_handler
 std::set_terminate (std::terminate_handler func) noexcept
 {
-  std::terminate_handler old;
+  std::terminate_handler old = __terminate_handler;
   __terminate_handler = func;
   return old;
 }
@@ -76,7 +76,7 @@ std::get_terminate () noexcept
 std::unexpected_handler
 std::set_unexpected (std::unexpected_handler func) noexcept
 {
-  std::unexpected_handler old;
+  std::unexpected_handler old = __unexpected_handler;
   __unexpected_handler = func;
   return old;
 }
