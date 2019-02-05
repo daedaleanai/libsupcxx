@@ -73,7 +73,7 @@ extern "C" void __cxa_free_exception(void *vptr) noexcept {
   bool freed = false;
   for (uint32_t i = 0; i < NUM_OBJS; ++i) {
     if (emergencyPool[i] == ptr) {
-      emergencyAllocated[i] == 0;
+      emergencyAllocated[i] = 0;
       freed = true;
     }
   }
