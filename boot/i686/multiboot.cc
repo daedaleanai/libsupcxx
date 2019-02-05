@@ -102,8 +102,8 @@ extern "C" void _parseMultiboot(uint32_t magic, MbInfo *info) {
   uint32_t add = 0x00400000;
 
   if(sizeof(int*) == 8) {
-    uint8_t shift = 21;
-    uint32_t add = 0x00200000;
+    shift = 21;
+    add = 0x00200000;
   }
 
   addr = (((addr-1)>>shift)<<shift)+add;
