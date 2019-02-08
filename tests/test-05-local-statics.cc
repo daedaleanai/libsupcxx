@@ -4,7 +4,7 @@
 int recursiveInit(int i) {
   io::printf("recursiveInit(%d)!\n", i);
   static int s = recursiveInit(i+1);    // recursive call – undefined
-  return i+1;
+  return i+s;
 }
 
 int computeTheMeaningOfLife() {

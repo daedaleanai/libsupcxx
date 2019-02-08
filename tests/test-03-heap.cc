@@ -17,7 +17,7 @@ private:
   int a_;
 public:
   Impl1(int a = 12) {
-    a = a_;
+    a_ = a;
   }
   virtual ~Impl1() {
     io::printf("Impl1 destructor called\n");
