@@ -28,6 +28,10 @@ namespace {
 const size_t VGA_WIDTH = 80;
 const size_t VGA_HEIGHT = 25;
 
+// COM1 == 0x03f8
+// COM2 == 0x02f8
+const unsigned short COM_PORT = 0x03f8;
+
 // Hardware text mode color constants.
 enum class VgaColor {
   BLACK = 0,
@@ -69,17 +73,32 @@ void vgaTerminalPutEntryAt(char c, uint8_t color, size_t x, size_t y) {
   vgaTerminal[vgaIndex(x, y)] = vgaEntry(c, color);
 }
 
+unsigned char inb(uint16_t port) {
+  unsigned char ret;
+  asm volatile(
+    "inb %1, %0"
+    : "=a" (ret)
+    : "dN" (port));
+  return ret;
 }
 
-extern "C" void _initIo() {
-  for (size_t y = 0; y < VGA_HEIGHT; ++y) {
-    for (size_t x = 0; x < VGA_WIDTH; ++x) {
-      vgaTerminal[vgaIndex(x, y)] = vgaEntry(' ', vgaTerminalColor);
-    }
+void outb(uint16_t port, uint8_t data) {
+  asm volatile(
+    "outb %1, %0"
+    :
+    : "dN" (port), "a" (data));
+}
+
+void putCharSerial(char c) {
+  while ((inb(COM_PORT + 5) & 0x20) == 0) {};
+  outb(COM_PORT, c);
+
+  if (c == '\n') {
+    putCharSerial('\r');
   }
 }
 
-extern "C" void _putChar(char c) {
+extern "C" void putCharVga(char c) {
   // newline
   if (c == '\n') {
     vgaTerminalColumn = 0;
@@ -100,6 +119,31 @@ extern "C" void _putChar(char c) {
       vgaTerminalRow = 0;
     }
   }
+}
+}
+
+
+extern "C" void _initIo() {
+  // Initialize the VGA buffer
+  for (size_t y = 0; y < VGA_HEIGHT; ++y) {
+    for (size_t x = 0; x < VGA_WIDTH; ++x) {
+      vgaTerminal[vgaIndex(x, y)] = vgaEntry(' ', vgaTerminalColor);
+    }
+  }
+
+  // Initialize serial
+  outb(COM_PORT + 1, 0x00); // Disable all interrupts
+  outb(COM_PORT + 3, 0x80); // Enable DLAB (set baud rate divisor)
+  outb(COM_PORT + 0, 0x01); // Set divisor to 1 (lo byte) 115200 baud
+  outb(COM_PORT + 1, 0x00); //                  (hi byte)
+  outb(COM_PORT + 3, 0x03); // 8 bits, no parity, one stop bit
+  outb(COM_PORT + 2, 0xC7); // Enable FIFO, clear them, with 14-byte threshold
+  outb(COM_PORT + 4, 0x0B); // IRQs enabled, RTS/DSR set
+}
+
+extern "C" void _putChar(char c) {
+  putCharVga(c);
+  putCharSerial(c);
 }
 
 extern "C" void abort() {
