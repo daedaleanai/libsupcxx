@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GCCVER=8.2.0
+GCCVER=11.1.0
 BINUTILSVER=2.31.1
 GDBVER=8.2.1
 
@@ -41,7 +41,7 @@ echo "[i] Installation prefix: ${PREFIX}";
 echo "[i] Installation target: ${TARGET}";
 echo;
 highlight "[i] For the build to succeed you need to have the following packages installed:";
-echo "[i] ]==> sudo apt-get install build-essential libgmp-dev libmpc-dev libmpfr-dev";
+echo "[i] ]==> sudo apt-get install build-essential libgmp-dev libmpc-dev libmpfr-dev texinfo";
 echo;
 
 read -p  "[?] Do you want to continue? (y/n) " -n 1 -r;
