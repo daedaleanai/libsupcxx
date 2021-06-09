@@ -7,7 +7,7 @@ add_library(
   crt0.S
   crt1.S
   ${CRT2}
-  ../i686/multiboot.cc
+  multiboot.cc
   setup.cc
   )
 
@@ -15,5 +15,5 @@ add_library(
   boot_last STATIC
   ${CRT3}
   crt4.S
-  ../i686/io.cc
+  io.cc
   )

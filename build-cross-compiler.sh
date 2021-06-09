@@ -29,7 +29,7 @@ function progress() {
 
 if [ $# -ne 2 ]; then
   echo "[i] Usage: $0 installation_prefix target";
-  echo "[i] ie: $0 /home/lj/Apps/cross-compiler/i686-elf i686-elf";
+  echo "[i] ie: $0 /home/lj/Apps/cross-compiler/x86_64-elf x86_64-elf";
   exit 1;
 fi
 
