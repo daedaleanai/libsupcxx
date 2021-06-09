@@ -24,9 +24,9 @@
 
 #include <typeinfo>
 #include <new>
-#include "exception_defines.h"
+#include "libsupcxx/libsupcxx/src/exception_defines.h"
 
-#include "cxxabi.h"
+#include "libsupcxx/libsupcxx/src/cxxabi.h"
 
 extern "C" void
 __cxxabiv1::__cxa_bad_cast ()

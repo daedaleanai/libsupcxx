@@ -21,7 +21,7 @@
 // <http://www.gnu.org/licenses/>.
 //------------------------------------------------------------------------------
 
-#include <boot/bootinfo.hh>
+#include "libsupcxx/boot/bootinfo.hh"
 
 #include <stdint.h>
 #include <stddef.h>

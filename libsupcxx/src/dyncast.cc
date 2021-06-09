@@ -21,7 +21,7 @@
 // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 // <http://www.gnu.org/licenses/>.
 
-#include "tinfo.h"
+#include "libsupcxx/libsupcxx/src/tinfo.h"
 
 namespace __cxxabiv1 {
 

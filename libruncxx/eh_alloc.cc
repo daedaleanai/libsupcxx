@@ -21,7 +21,7 @@
 // <http://www.gnu.org/licenses/>.
 //------------------------------------------------------------------------------
 
-#include "../libsupcxx/src/unwind-cxx.h"
+#include "libsupcxx/libsupcxx/src/unwind-cxx.h"
 #include <exception>
 #include <stddef.h>
 #include <stdint.h>

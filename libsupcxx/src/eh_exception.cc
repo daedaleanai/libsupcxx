@@ -23,7 +23,7 @@
 // <http://www.gnu.org/licenses/>.
 
 #include <exception>
-#include "cxxabi.h"
+#include "libsupcxx/libsupcxx/src/cxxabi.h"
 
 std::exception::~exception() noexcept { }
 

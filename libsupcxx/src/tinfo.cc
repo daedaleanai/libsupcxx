@@ -23,7 +23,7 @@
 // <http://www.gnu.org/licenses/>.
 
 #include <cstddef>
-#include "tinfo.h"
+#include "libsupcxx/libsupcxx/src/tinfo.h"
 
 std::type_info::
 ~type_info ()

@@ -21,7 +21,7 @@
 // <http://www.gnu.org/licenses/>.
 //------------------------------------------------------------------------------
 
-#include "../libsupcxx/src/cxxabi.h"
+#include "libsupcxx/libsupcxx/src/cxxabi.h"
 
 extern "C" void abort();
 

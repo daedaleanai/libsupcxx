@@ -22,8 +22,8 @@
 //------------------------------------------------------------------------------
 
 #include <stdint.h>
-#include "../libsupcxx/src/exception_defines.h"
-#include "../libsupcxx/src/cxxabi.h"
+#include "libsupcxx/libsupcxx/src/exception_defines.h"
+#include "libsupcxx/libsupcxx/src/cxxabi.h"
 
 #if __cpp_exceptions
 namespace __gnu_cxx {

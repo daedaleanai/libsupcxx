@@ -1,5 +1,5 @@
 
-#include <io/printf.hh>
+#include "libsupcxx/io/printf.hh"
 
 int recursiveInit(int i) {
   io::printf("recursiveInit(%d)!\n", i);
