@@ -42,7 +42,6 @@ like the command below to build it for the desired architecture.
 
 Currently supported architectures are:
 
- * `i686-elf`
  * `x86_64-elf`
  * `aarch64-elf`
 
@@ -60,7 +59,6 @@ Finally, you can build the whole thing using CMake:
 
 where platform is one of the names below:
 
- * `i686` - requires an `i686-elf` toolchain
  * `x86_64` - requires an `x86_64-elf` toolchain
  * `raspi3` - requires an `aarch64-elf` toolchain
 
