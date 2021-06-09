@@ -21,7 +21,7 @@
 // <http://www.gnu.org/licenses/>.
 //------------------------------------------------------------------------------
 
-#include "../bootinfo.hh"
+#include "libsupcxx/boot/bootinfo.hh"
 #include <stdint.h>
 
 #define MULTIBOOT_MEMORY_AVAILABLE 1

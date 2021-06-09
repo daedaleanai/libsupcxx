@@ -1,5 +1,5 @@
 
-#include <io/printf.hh>
+#include "libsupcxx/io/printf.hh"
 
 class TestGlobalCtorDtor {
 public:

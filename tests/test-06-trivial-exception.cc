@@ -1,5 +1,5 @@
 
-#include <io/printf.hh>
+#include "libsupcxx/io/printf.hh"
 
 void main(const char *cmdline) {
   io::printf("A trivial exception test\n");

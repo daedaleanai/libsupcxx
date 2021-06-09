@@ -37,8 +37,8 @@
 // SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include "string.hh"
-#include "limits.h"
+#include "libsupcxx/io/string.hh"
+#include "limits.h" //TODO
 
 namespace {
 inline bool isalpha(char c) {

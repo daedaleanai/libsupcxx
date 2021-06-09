@@ -1,6 +1,6 @@
 
-#include <io/printf.hh>
-#include <io/memory.hh>
+#include "libsupcxx/io/printf.hh"
+#include "libsupcxx/io/memory.hh"
 
 #include <new>
 

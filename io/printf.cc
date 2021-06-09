@@ -21,9 +21,9 @@
 // <http://www.gnu.org/licenses/>.
 //------------------------------------------------------------------------------
 
-#include "printf.hh"
-#include "io.hh"
-#include "string.hh"
+#include "libsupcxx/io/printf.hh"
+#include "libsupcxx/io/io.hh"
+#include "libsupcxx/io/string.hh"
 
 #include <stdarg.h>
 

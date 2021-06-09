@@ -33,7 +33,7 @@
 #include <typeinfo>
 #include <exception>
 #include "unwind.h"
-#include "cxxabi.h"
+#include "libsupcxx/libsupcxx/src/cxxabi.h"
 
 #pragma GCC visibility push(default)
 

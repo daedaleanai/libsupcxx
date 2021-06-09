@@ -21,9 +21,9 @@
 // <http://www.gnu.org/licenses/>.
 //------------------------------------------------------------------------------
 
-#include "../bootinfo.hh"
+#include "libsupcxx/boot/bootinfo.hh"
 
-#include <io/string.hh>
+#include "libsupcxx/io/string.hh"
 
 // These variables do not exist, but their addresses are known to the linker.
 // See the linker script for details.

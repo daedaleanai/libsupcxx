@@ -21,7 +21,7 @@
 // <http://www.gnu.org/licenses/>.
 //------------------------------------------------------------------------------
 
-#include "io.hh"
+#include "libsupcxx/io/io.hh"
 
 extern "C" void _putChar(char c);
 

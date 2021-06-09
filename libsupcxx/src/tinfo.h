@@ -27,7 +27,7 @@
 
 // Class declarations shared between the typeinfo implementation files.
 
-#include "cxxabi.h"
+#include "libsupcxx/libsupcxx/src/cxxabi.h"
 
 namespace __cxxabiv1 {
 
