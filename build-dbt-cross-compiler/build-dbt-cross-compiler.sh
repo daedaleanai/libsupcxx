@@ -115,6 +115,7 @@ PREFIX="${TEMPDIR}/out"
 
   cd out
   progress "[i] Adding BUILD.go" cp ${BUILD_GO} .
+  sed -i -e "s/GCC_VER/${GCCVER}/g" BUILD.go
   progress "[i] Making package" tar -czvf ${OUT} *
   highlight "[i] Package ${OUT} created successfully"
 )

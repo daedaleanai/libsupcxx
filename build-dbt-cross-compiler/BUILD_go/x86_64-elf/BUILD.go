@@ -11,8 +11,8 @@ var Toolchain = cc.GccToolchain{
 	Objcopy: in("bin/x86_64-elf-objcopy"),
 
 	Includes: ins(
-		"lib/gcc/x86_64-elf/10.2.0/include",
-		"lib/gcc/x86_64-elf/10.2.0/include-fixed",
+		"lib/gcc/x86_64-elf/GCC_VER/include",
+		"lib/gcc/x86_64-elf/GCC_VER/include-fixed",
 	),
 
 	CompilerFlags: []string{
@@ -44,5 +44,5 @@ var Toolchain = cc.GccToolchain{
 	TargetName: "elf64-x86-64",
 }
 
-var CrtBegin = in("lib/gcc/x86_64-elf/10.2.0/crtbegin.o")
-var CrtEnd = in("lib/gcc/x86_64-elf/10.2.0/crtend.o")
+var CrtBegin = in("lib/gcc/x86_64-elf/GCC_VER/crtbegin.o")
+var CrtEnd = in("lib/gcc/x86_64-elf/GCC_VER/crtend.o")
