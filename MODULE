@@ -1,0 +1,16 @@
+dependencies:
+- name: dbt-rules
+  url: git@github.com:daedaleanai/dbt-rules.git
+  version:
+    rev: master
+    hash: e520bd0b8f279ad8874eee07df2c6483ec6f0b36
+- name: aarch64-elf-gcc
+  url: https://storage.googleapis.com/gcc-toolchains/aarch64-elf-gcc-11.1.0-binutils-2.31.1-x86_64.tar.gz
+  version:
+    rev: master
+    hash: 87403d8749382f4c5e34ee7b72cf0d1303f7adcfcee2a5b05b17c3b4e8d80785
+- name: x86_64-elf-gcc
+  url: https://storage.googleapis.com/gcc-toolchains/x86_64-elf-gcc-11.1.0-binutils-2.31.1-x86_64.tar.gz
+  version:
+    rev: master
+    hash: c6bb6adf58fae5cd3429babee9a0e6b62ee5d3548ad24b1479640a677583d8b7

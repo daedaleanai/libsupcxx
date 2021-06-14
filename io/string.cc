@@ -38,7 +38,7 @@
 //------------------------------------------------------------------------------
 
 #include "libsupcxx/io/string.hh"
-#include "limits.h" //TODO
+#include "limits.h"
 
 namespace {
 inline bool isalpha(char c) {
