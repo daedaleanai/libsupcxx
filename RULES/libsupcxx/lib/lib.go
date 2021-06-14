@@ -3,7 +3,7 @@ package lib
 import (
 	"dbt-rules/RULES/cc"
 	"dbt-rules/RULES/core"
-	"libsupcxx/RULES/flags"
+	"libsupcxx/RULES/config"
 	"libsupcxx/libsupcxx/include"
 )
 
@@ -26,14 +26,14 @@ func (lib Library) CcLibrary() cc.Library {
 		Objs:          lib.Objs,
 		CompilerFlags: lib.CompilerFlags,
 		Deps:          lib.Deps,
-		Includes:      include.LibSupCxxHeaders,
+		Includes:      include.Headers,
 		AlwaysLink:    lib.AlwaysLink,
-		Toolchain:     flags.Toolchain(),
+		Toolchain:     config.Toolchain(),
 	}
 }
 
 func (lib Library) Build(ctx core.Context) {
-	if lib.OnlyForConfig == "" || lib.OnlyForConfig == flags.Target.Value() {
+	if lib.OnlyForConfig == "" || lib.OnlyForConfig == config.Target.Value() {
 		lib.CcLibrary().Build(ctx)
 	}
 }

@@ -1,11 +1,11 @@
 package x86_64
 
 import (
-	"dbt-rules/RULES/util"
 	"dbt-rules/RULES/core"
+	"dbt-rules/RULES/util"
 
 	"libsupcxx/RULES/boot"
-	"libsupcxx/RULES/flags"
+	"libsupcxx/RULES/config"
 	"libsupcxx/RULES/libsupcxx/lib"
 	gcc "x86_64-elf-gcc"
 )
@@ -21,31 +21,31 @@ var crt3 = util.CopyFile{
 }
 
 var BootFirst = lib.Library{
-	Out:  out("libboot_first.a"),
+	Out: out("libboot_first.a"),
 	Srcs: ins(
 		"crt0.S",
 		"crt1.S",
 		"multiboot.cc",
 		"setup.cc",
 	),
-	Objs: []core.Path{crt2.To},
-	AlwaysLink: true,
-	OnlyForConfig: flags.X86_64,
+	Objs:          []core.Path{crt2.To},
+	AlwaysLink:    true,
+	OnlyForConfig: config.X86_64,
 }
 
 var BootLast = lib.Library{
-	Out:  out("libboot_last.a"),
+	Out: out("libboot_last.a"),
 	Srcs: ins(
 		"io.cc",
 		"crt4.S",
 	),
-	Objs: []core.Path{crt3.To},
-	AlwaysLink: true,
-	OnlyForConfig: flags.X86_64,
+	Objs:          []core.Path{crt3.To},
+	AlwaysLink:    true,
+	OnlyForConfig: config.X86_64,
 }
 
 var Boot = boot.Boot{
-	BootFirst: BootFirst,
-	BootLast: BootLast,
-	LinkerScript : in("kernel.ld"),
+	BootFirst:    BootFirst,
+	BootLast:     BootLast,
+	LinkerScript: in("kernel.ld"),
 }

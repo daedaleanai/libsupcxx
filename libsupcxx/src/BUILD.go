@@ -2,7 +2,7 @@ package src
 
 import (
 	"libsupcxx/RULES/libsupcxx/lib"
-)                                                          
+)
 
 var Lib = lib.Library{
 	Out: out("libsupcxx.a"),

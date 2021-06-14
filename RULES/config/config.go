@@ -1,16 +1,16 @@
-package flags
+package config
 
 import (
-	"dbt-rules/RULES/core"
 	"dbt-rules/RULES/cc"
-	
+	"dbt-rules/RULES/core"
+
 	aarch64 "aarch64-elf-gcc"
 	x86_64 "x86_64-elf-gcc"
 )
 
 const (
-	RasPi3  = "raspi3"
-	X86_64  = "x86_64"
+	RasPi3 = "raspi3"
+	X86_64 = "x86_64"
 )
 
 var Target = core.StringFlag{

@@ -3,14 +3,14 @@ package libsupcxx
 import (
 	"dbt-rules/RULES/cc"
 	"dbt-rules/RULES/core"
-	"libsupcxx/RULES/libsupcxx/lib"
-	"libsupcxx/RULES/boot"
-	"libsupcxx/RULES/flags"
-	"libsupcxx/boot/x86_64"
-	"libsupcxx/boot/raspi3"
-	libsupcxx "libsupcxx/libsupcxx/src"
-	"libsupcxx/libruncxx"
 	"fmt"
+	"libsupcxx/RULES/boot"
+	"libsupcxx/RULES/config"
+	"libsupcxx/RULES/libsupcxx/lib"
+	"libsupcxx/boot/raspi3"
+	"libsupcxx/boot/x86_64"
+	"libsupcxx/libruncxx"
+	libsupcxx "libsupcxx/libsupcxx/src"
 )
 
 type Dep = cc.Dep
@@ -24,10 +24,10 @@ type Binary struct {
 }
 
 func Boot() boot.Boot {
-	switch flags.Target.Value() {
-	case flags.X86_64:
+	switch config.Target.Value() {
+	case config.X86_64:
 		return x86_64.Boot
-	case flags.RasPi3:
+	case config.RasPi3:
 		return raspi3.Boot
 	}
 	return boot.Boot{}
@@ -43,25 +43,25 @@ func (bin Binary) ccBinary() cc.Binary {
 	deps = append(deps, Boot().BootFirst)
 
 	return cc.Binary{
-		Out: bin.Out,
-		Srcs: bin.Srcs,
-		Deps: deps,
-		Script: Boot().LinkerScript,
-		Toolchain: flags.Toolchain(),
+		Out:       bin.Out,
+		Srcs:      bin.Srcs,
+		Deps:      deps,
+		Script:    Boot().LinkerScript,
+		Toolchain: config.Toolchain(),
 	}
 }
 
 func (bin Binary) Build(ctx core.Context) {
-	if bin.OnlyForConfig != "" && bin.OnlyForConfig != flags.Target.Value() {
+	if bin.OnlyForConfig != "" && bin.OnlyForConfig != config.Target.Value() {
 		return
 	}
 	bin.ccBinary().Build(ctx)
 	ctx.AddBuildStep(core.BuildStep{
 		Out: bin.hexPath(),
-		In: bin.Out,
+		In:  bin.Out,
 		Cmd: fmt.Sprintf(
 			"%q -O binary %q %q",
-			flags.Toolchain().Objcopy,
+			config.Toolchain().Objcopy,
 			bin.Out,
 			bin.hexPath(),
 		),

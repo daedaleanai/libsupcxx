@@ -6,7 +6,7 @@ import (
 )
 
 type Boot struct {
-	BootFirst lib.Library
-	BootLast lib.Library
-	LinkerScript core.Path 
+	BootFirst    lib.Library
+	BootLast     lib.Library
+	LinkerScript core.Path
 }
