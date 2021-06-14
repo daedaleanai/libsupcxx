@@ -28,6 +28,10 @@ The directory structure is as follows:
 Building instructions
 ---------------------
 
+`libsupcxx` can be built with CMake or [dbt][dbt]. The two build systems produce the same results.
+
+### Building with CMake ###
+
 First of all, you will need a cross-compiler targeting bare metal. To build one,
 you will need a couple of utilities and libraries. These may be installed on
 Ubuntu using the following command:
@@ -61,6 +65,22 @@ where platform is one of the names below:
 
  * `x86_64` - requires an `x86_64-elf` toolchain
  * `raspi3` - requires an `aarch64-elf` toolchain
+
+
+### Building with DBT ###
+
+You will only need to have [dbt][dbt] installed. The cross-compiler dependency is automatically resolved by dbt.
+To fetch the dependencies run:
+
+    dbt sync
+
+To build the whole thing run:
+
+    dbt build //libsupcxx/... target=<target>
+
+where target is one of
+ * `x86_64`
+ * `raspi3`
 
 Running and debugging
 ---------------------
@@ -136,3 +156,4 @@ rebuild qemu from source. See [this][qemu-bug] launchpad ticket.
 [gcc-rt-exp]: https://www.gnu.org/licenses/gcc-exception-3.1.en.html
 [qemu-bug]: https://bugs.launchpad.net/qemu/+bug/1811888
 [qemu-git]: https://github.com/qemu/qemu
+[dbt]: https://github.com/daedaleanai/dbt
