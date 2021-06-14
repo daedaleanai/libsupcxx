@@ -1,3 +1,3 @@
 package include
 
-var LibSupCxxHeaders = ins(".")
+var Headers = ins(".")
