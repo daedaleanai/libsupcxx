@@ -50,5 +50,4 @@ var Lib = lib.Library{
 		"eh_catch.cc",
 		"eh_call.cc",
 	),
-	AlwaysLink: false,
 }

@@ -11,5 +11,4 @@ var Lib = lib.Library{
 		"io.cc",
 		"string.cc",
 	),
-	AlwaysLink: false,
 }
