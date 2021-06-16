@@ -1,0 +1,11 @@
+
+include(CMakeForceCompiler)
+set(CMAKE_SYSTEM_NAME Generic)
+set(CMAKE_SYSTEM_VERSION 1)
+set(CMAKE_C_FLAGS "-ffreestanding" CACHE STRING "" FORCE)
+set(CMAKE_CXX_FLAGS "-ffreestanding -std=c++14 -mno-red-zone" CACHE STRING "" FORCE)
+set(CMAKE_ASM_FLAGS "-ffreestanding " CACHE STRING "" FORCE)
+set(CMAKE_EXE_LINKER_FLAGS "-ffreestanding -nostdlib -Wl,-T,${CMAKE_SOURCE_DIR}/boot/linux-x86_64/kernel.ld -z max-page-size=0x1000" CACHE STRING "" FORCE)
+set(CMAKE_C_COMPILER x86_64-elf-gcc)
+set(CMAKE_CXX_COMPILER x86_64-elf-g++)
+set(CMAKE_OBJCOPY x86_64-elf-objcopy CACHE STRING "" FORCE)
