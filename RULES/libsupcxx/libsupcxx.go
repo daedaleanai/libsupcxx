@@ -7,6 +7,7 @@ import (
 	"libsupcxx/RULES/boot"
 	"libsupcxx/RULES/config"
 	"libsupcxx/RULES/libsupcxx/lib"
+	linux "libsupcxx/boot/linux-x86_64"
 	"libsupcxx/boot/raspi3"
 	"libsupcxx/boot/x86_64"
 	"libsupcxx/libruncxx"
@@ -29,6 +30,9 @@ func Boot() boot.Boot {
 		return x86_64.Boot
 	case config.RasPi3:
 		return raspi3.Boot
+	case config.Linux_x86_64:
+		return linux.Boot
+
 	}
 	return boot.Boot{}
 }
