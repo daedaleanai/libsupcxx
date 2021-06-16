@@ -64,6 +64,7 @@ Finally, you can build the whole thing using CMake:
 where platform is one of the names below:
 
  * `x86_64` - requires an `x86_64-elf` toolchain
+ * `linux-x86_64` - requires an `x86_64-elf` toolchain
  * `raspi3` - requires an `aarch64-elf` toolchain
 
 
@@ -81,11 +82,13 @@ To build the whole thing run:
 where target is one of
  * `x86_64`
  * `raspi3`
+ * `linux-x86_64`
 
 Running and debugging
 ---------------------
 
-The binaries built this way are meant for bare metal and thus are not runnuble
+### Baremetal targets ###
+The binaries built for `x86_64` and `raspi3` are meant for bare metal and thus are not runnuble
 under an operating system. They are however, multiboot compatible kernels and,
 therefore, can be run using `qemu`. To install `qemu` on Ubuntu, type:
 
@@ -137,6 +140,14 @@ forward the MiniUART to standard output.
         -kernel tests/test-07-throw-clean-up-rethrow.hex \
         -append "Kernel commandline params go here"      \
         -serial null -serial stdio
+
+### Linux-x86\_64 target ###
+
+These binaries can be run as normal ELF executables. Optionally it is possible to
+specify the amount of heap to be allocated, by setting the environment variable `LIBSUPCXX_HEAPLEN`.
+If the variable is not set, it will default to 64 MiB.
+
+    LIBSUPCXX_HEAPLEN=100000 tests/test-07-throw-clean-up-rethrow.elf
 
 Notes
 -----
