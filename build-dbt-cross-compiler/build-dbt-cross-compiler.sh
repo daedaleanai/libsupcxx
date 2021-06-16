@@ -36,7 +36,7 @@ fi
 TARGET=$1;
 
 SCRIPT_DIR=`dirname "$0"`
-BUILD_GO=`readlink -f "${SCRIPT_DIR}/BUILD_go/${TARGET}/BUILD.go"`
+BUILD_GO=`readlink -f "${SCRIPT_DIR}/BUILD-go/${TARGET}/TEMPLATE-BUILD.go"`
 
 if [ ! -f "${BUILD_GO}" ]; then
   error "[e] Could not find dbt build file ${BUILD_GO}. Is the target ${TARGET} supported?"
@@ -114,7 +114,7 @@ PREFIX="${TEMPDIR}/out"
   
 
   cd out
-  progress "[i] Adding BUILD.go" cp ${BUILD_GO} .
+  progress "[i] Adding BUILD.go" cp ${BUILD_GO} ./BUILD.go
   sed -i -e "s/GCC_VER/${GCCVER}/g" BUILD.go
   progress "[i] Making package" tar -czvf ${OUT} *
   highlight "[i] Package ${OUT} created successfully"

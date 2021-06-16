@@ -20,7 +20,7 @@ var crt3 = util.CopyFile{
 	To:   out("crt3.o"),
 }
 
-var BootFirst = lib.Library{
+var bootFirst = lib.Library{
 	Out: out("libboot_first.a"),
 	Srcs: ins(
 		"crt0.S",
@@ -31,7 +31,7 @@ var BootFirst = lib.Library{
 	OnlyForConfig: config.RasPi3,
 }
 
-var BootLast = lib.Library{
+var bootLast = lib.Library{
 	Out:           out("libboot_last.a"),
 	Srcs:          ins("io.cc"),
 	Objs:          []core.Path{crt3.To},
@@ -40,7 +40,7 @@ var BootLast = lib.Library{
 }
 
 var Boot = boot.Boot{
-	BootFirst:    BootFirst,
-	BootLast:     BootLast,
+	BootFirst:    bootFirst,
+	BootLast:     bootLast,
 	LinkerScript: in("kernel.ld"),
 }

@@ -17,6 +17,7 @@ var Target = core.StringFlag{
 	Name:          "target",
 	Description:   "target architecture",
 	AllowedValues: []string{RasPi3, X86_64},
+	DefaultFn:     func() string { return X86_64 },
 }.Register()
 
 func Toolchain() cc.GccToolchain {

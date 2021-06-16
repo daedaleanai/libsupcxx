@@ -1,7 +1,7 @@
 
 cmake_minimum_required(VERSION 3.8)
 
-# Includes in this project are meant for dbt, so they are relative to dbt's DEPS folder,
+# Includes in this project are meant for dbt, so they are relative to dbt's DEPS directory,
 # where all modules, including the main project, would have their own folder.
 # So every include to files in this project is prefixed by the name of the project folder.
 # For example, to include io/io.hh we use #include "libsupxx/io/io.hh"
