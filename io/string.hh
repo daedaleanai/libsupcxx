@@ -26,7 +26,10 @@
 #include <cstddef>
 
 namespace io {
-extern "C" size_t strlen(const char* str);
+
+extern "C" size_t strlen(const char *str);
+extern "C" char *strncpy(char *dest, const char *src, size_t num);
+extern "C" int strncmp(const char *s1, const char *s2, size_t n);
 const char *strstr(const char *haystack, const char *needle);
 unsigned long strtoul(const char *nptr, const char **endptr, int base);
 
