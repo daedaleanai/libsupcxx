@@ -23,8 +23,8 @@
 
 #include "libsupcxx/io/printf.hh"
 #include "libsupcxx/io/io.hh"
-#include "libsupcxx/io/string.hh"
 
+#include <cstring>
 #include <stdarg.h>
 
 namespace {

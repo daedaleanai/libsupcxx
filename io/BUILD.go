@@ -9,6 +9,5 @@ var Lib = lib.Library{
 	Srcs: ins(
 		"printf.cc",
 		"io.cc",
-		"string.cc",
 	),
 }
