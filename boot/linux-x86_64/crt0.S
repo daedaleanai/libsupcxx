@@ -35,8 +35,6 @@
 .type _syscall, @function
 
 _start:
-  // TODO is this too far from call?
-
   // We need to get argc, argv, and envp from the stack for _systemSetup.
   // Linux gives us the stack as: 
   // ($rsp) argc -- argv[0] -- argv[1] -- ... -- argv[argc - 1] -- envp
