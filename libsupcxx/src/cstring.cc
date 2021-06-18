@@ -41,6 +41,8 @@
 
 #include "limits.h"
 
+
+namespace {
 inline bool isalpha(char c) {
   return (c >= 65 && c < 90) || (c >= 97 && c < 122);
 }
@@ -59,6 +61,7 @@ inline bool isupper(char c) {
 
 inline bool isascii(char c) {
   return ((c) & ~0x7F) == 0;
+}
 }
 
 int strncmp(const char *s1, const char *s2, size_t n) {
