@@ -48,4 +48,6 @@ add_library(
   eh_throw.cc
   eh_catch.cc
   eh_call.cc
+
+  cstring.cc
   )
