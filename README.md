@@ -144,7 +144,7 @@ forward the MiniUART to standard output.
 ### Linux-x86\_64 target ###
 
 These binaries can be run as normal ELF executables. Optionally it is possible to
-specify the amount of heap to be allocated, by setting the environment variable `LIBSUPCXX_HEAPLEN`.
+specify the size of the heap, by setting the environment variable `LIBSUPCXX_HEAPLEN`.
 If the variable is not set, it will default to 64 MiB.
 
     LIBSUPCXX_HEAPLEN=100000 tests/test-07-throw-clean-up-rethrow.elf

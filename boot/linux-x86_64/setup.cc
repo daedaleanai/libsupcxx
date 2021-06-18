@@ -78,7 +78,6 @@ extern "C" char *_addCmdLine(size_t argc, const char **argv, char *heap) {
 // Called by start, allocates heap and populates bootInfo
 extern "C" void _systemSetup(size_t argc, const char **argv,
                              const char **envp) {
-  // MMap the right amout of heap and populate bootInfo
   size_t heapLen = _heapLen(envp);
   int64_t mmapReturn =
       _syscall(SYS_mmap,               // mmap(
@@ -102,5 +101,5 @@ extern "C" void _systemSetup(size_t argc, const char **argv,
   // So the real heap starts after end of the cmdline
   bootInfo.heapStart = (uint64_t)_addCmdLine(argc, argv, (char *)allocated);
   bootInfo.cmdline = (const char *)allocated;
-  bootInfo.heapEnd = (uint64_t)((uint8_t *)bootInfo.heapStart + heapLen);
+  bootInfo.heapEnd = (uint64_t)(bootInfo.cmdline + heapLen);
 }

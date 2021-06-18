@@ -33,10 +33,7 @@ SECTIONS
   /*----------------------------------------------------------------------------
    | The text section.
    |
-   | We need to put the multiboot header first because the bootloader will
-   | look for it in the first 8k of the binary image and, since it's not called
-   | by anything, we explicitly KEEP it so that the linker does not optimize
-   | it away. GCC assembles both .init and .fini sections out of a bunch object
+   | GCC assembles both .init and .fini sections out of a bunch object
    | files. Some of the are provided by the compiler runtime and others by us.
    | crt0.o goes first, then crti.o (I renamed it to crt1.o so that I can use
    | sort here), then crtbegin.o (supplied by the compiler runtime, renamed
@@ -51,7 +48,6 @@ SECTIONS
    *--------------------------------------------------------------------------*/
   .text BLOCK(4K) : ALIGN(4K)
   {
-    KEEP(*(.multiboot))
     SORT(*libboot_first.a:*)(.init*)
     SORT(*libboot_last.a:*)(.init*)
     *(.text*)
