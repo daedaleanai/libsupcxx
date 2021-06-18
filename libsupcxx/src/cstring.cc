@@ -37,10 +37,10 @@
 // SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include "libsupcxx/io/string.hh"
+#include <cstring>
+
 #include "limits.h"
 
-namespace {
 inline bool isalpha(char c) {
   return (c >= 65 && c < 90) || (c >= 97 && c < 122);
 }
@@ -60,9 +60,7 @@ inline bool isupper(char c) {
 inline bool isascii(char c) {
   return ((c) & ~0x7F) == 0;
 }
-}
 
-namespace io {
 int strncmp(const char *s1, const char *s2, size_t n) {
   if (n == 0) {
     return 0;
@@ -165,5 +163,4 @@ unsigned long strtoul(const char *nptr, const char **endptr, int base) {
     *endptr = any ? s - 1 : nptr;
   }
   return acc;
-}
 }

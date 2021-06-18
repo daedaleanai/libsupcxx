@@ -23,8 +23,8 @@
 
 #include "libsupcxx/boot/bootinfo.hh"
 #include "libsupcxx/boot/linux-x86_64/syscall.h"
-#include "libsupcxx/io/string.hh"
 
+#include <cstring>
 #include <cstdint>
 
 // The length of the heap to allocate can be specified by an environment
@@ -40,9 +40,9 @@ BootInfo bootInfo;
 
 // Similar to standard getenv, but takes envp as argument
 extern "C" const char *_getenv(const char **envp, const char *name) {
-  size_t len = io::strlen(name);
+  size_t len = strlen(name);
   for (const char **env = envp; *env; ++env) {
-    if (io::strncmp(*env, name, len) == 0) {
+    if (strncmp(*env, name, len) == 0) {
       return *env + len + 1;
     }
   }
@@ -53,7 +53,7 @@ extern "C" const char *_getenv(const char **envp, const char *name) {
 extern "C" size_t _heapLen(const char **envp) {
   const char *env = _getenv(envp, ENV_HEAPLEN);
   if (env) {
-    return io::strtoul(env, nullptr, 0);
+    return strtoul(env, nullptr, 0);
   }
   return HEAPLEN_DEFAULT;
 }
@@ -63,8 +63,8 @@ extern "C" size_t _heapLen(const char **envp) {
 extern "C" char *_addCmdLine(size_t argc, const char **argv, char *heap) {
   char *end = heap;
   for (size_t i = 0; i < argc; ++i) {
-    size_t len = io::strlen(argv[i]);
-    io::strncpy(end, argv[i], len);
+    size_t len = strlen(argv[i]);
+    strncpy(end, argv[i], len);
     if (i == argc - 1) {
       end[len] = '\0';
     } else {
@@ -91,7 +91,7 @@ extern "C" void _systemSetup(size_t argc, const char **argv,
 
   // Check for failure. Unlike mmap, SYS_mmap can return a range of errno's
   if (mmapReturn >= -4095 && mmapReturn <= -1) {
-    _syscall(SYS_write, STDOUT_FILENO, MMAP_ERR_MSG, io::strlen(MMAP_ERR_MSG));
+    _syscall(SYS_write, STDOUT_FILENO, MMAP_ERR_MSG, strlen(MMAP_ERR_MSG));
     _syscall(SYS_exit, 1);
   }
 

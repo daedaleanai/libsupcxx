@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (C) 2018-2019 Daedalean AG
+// Copyright (C) 2021 Daedalean AG
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the
@@ -25,12 +25,8 @@
 
 #include <cstddef>
 
-namespace io {
-
 extern "C" size_t strlen(const char *str);
 extern "C" char *strncpy(char *dest, const char *src, size_t num);
 extern "C" int strncmp(const char *s1, const char *s2, size_t n);
 const char *strstr(const char *haystack, const char *needle);
 unsigned long strtoul(const char *nptr, const char **endptr, int base);
-
-} // namespace io

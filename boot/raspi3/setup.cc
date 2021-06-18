@@ -23,7 +23,7 @@
 
 #include "libsupcxx/boot/bootinfo.hh"
 
-#include "libsupcxx/io/string.hh"
+#include <cstring>
 
 // These variables do not exist, but their addresses are known to the linker.
 // See the linker script for details.
@@ -64,11 +64,11 @@ extern "C" void _systemSetup(BootInfo *info) {
   info->cmdline = (char*)0x12c;
 
   // See if we have some bootloader information passed on the commandline
-  const char *vcBase = io::strstr(cmdline, "vc_mem.mem_base=");
+  const char *vcBase = strstr(cmdline, "vc_mem.mem_base=");
   if (vcBase) {
     // The bootloader inserts two space between the boot data and the
     // user-supplied commandline
-    const char *userCmdLine = io::strstr(cmdline, "  ");
+    const char *userCmdLine = strstr(cmdline, "  ");
     if (userCmdLine) {
       info->cmdline = userCmdLine + 2;
     } else {
@@ -77,9 +77,9 @@ extern "C" void _systemSetup(BootInfo *info) {
 
     // Figure out where our memory ends - this is where the videocore memory
     // starts. At leas I thinks so. Could not find any docs.
-    vcBase += io::strlen("vc_mem.mem_base="); // name
+    vcBase += strlen("vc_mem.mem_base="); // name
     const char *ptr = vcBase;
-    uint64_t heapEnd = io::strtoul(vcBase, &ptr, 16);
+    uint64_t heapEnd = strtoul(vcBase, &ptr, 16);
     if (ptr != vcBase && *ptr == ' ') {
       info->heapEnd = heapEnd;
     }
