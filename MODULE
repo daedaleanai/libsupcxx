@@ -8,9 +8,9 @@ dependencies:
   url: https://storage.googleapis.com/gcc-toolchains/aarch64-elf-gcc-11.1.0-binutils-2.31.1-x86_64.tar.gz
   version:
     rev: master
-    hash: 87403d8749382f4c5e34ee7b72cf0d1303f7adcfcee2a5b05b17c3b4e8d80785
+    hash: 8cdf935c8cb6013b2a065b393975f7aa0797708b60889134ae637b9fd406e3d7
 - name: x86_64-elf-gcc
   url: https://storage.googleapis.com/gcc-toolchains/x86_64-elf-gcc-11.1.0-binutils-2.31.1-x86_64.tar.gz
   version:
     rev: master
-    hash: c6bb6adf58fae5cd3429babee9a0e6b62ee5d3548ad24b1479640a677583d8b7
+    hash: ec070199b01709a582fff72ad1d659fecac125544af1406eca5728162d1b9918

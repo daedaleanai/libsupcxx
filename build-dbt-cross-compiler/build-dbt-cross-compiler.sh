@@ -43,7 +43,8 @@ if [ ! -f "${BUILD_GO}" ]; then
   exit 1
 fi
 
-OUT=`readlink -f "$TARGET-gcc-$GCCVER-binutils-$BINUTILSVER-$HOST.tar.gz"`
+OUT_NAME="$TARGET-gcc-$GCCVER-binutils-$BINUTILSVER-$HOST"
+OUT_TAR=`readlink -f "${OUT_NAME}.tar.gz"`
 
 highlight "[i] Package parameters:"
 echo "[i] Cross compiler target: ${TARGET}"
@@ -67,7 +68,7 @@ if [ x"$REPLY" != xy ]; then
 fi
 
 TEMPDIR=`mktemp -d`
-PREFIX="${TEMPDIR}/out"
+PREFIX="${TEMPDIR}/${OUT_NAME}"
 
 (
   echo "[i] Working in ${TEMPDIR}"
@@ -113,9 +114,8 @@ PREFIX="${TEMPDIR}/out"
   echo
   
 
-  cd out
-  progress "[i] Adding BUILD.go" cp ${BUILD_GO} ./BUILD.go
-  sed -i -e "s/GCC_VER/${GCCVER}/g" BUILD.go
-  progress "[i] Making package" tar -czvf ${OUT} *
-  highlight "[i] Package ${OUT} created successfully"
+  progress "[i] Adding BUILD.go" cp ${BUILD_GO} ${PREFIX}/BUILD.go
+  sed -i -e "s/GCC_VER/${GCCVER}/g" ${PREFIX}/BUILD.go
+  progress "[i] Making package" tar -czvf ${OUT_TAR} ${OUT_NAME}
+  highlight "[i] Package ${OUT_TAR} created successfully"
 )
