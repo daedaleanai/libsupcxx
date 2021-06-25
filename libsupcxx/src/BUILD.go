@@ -1,10 +1,10 @@
 package src
 
 import (
-	"libsupcxx/RULES/libsupcxx/lib"
+	"libsupcxx/RULES/libsupcxx/xlib"
 )
 
-var Lib = lib.Library{
+var XLib = xlib.XLibrary{
 	Out: out("libsupcxx.a"),
 	Srcs: ins(
 		"del_op.cc",
