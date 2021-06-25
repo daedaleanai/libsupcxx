@@ -1,10 +1,10 @@
 package libruncxx
 
 import (
-	"libsupcxx/RULES/libsupcxx/lib"
+	"libsupcxx/RULES/libsupcxx/xlib"
 )
 
-var Lib = lib.Library{
+var XLib = xlib.XLibrary{
 	Out: out("libruncxx.a"),
 	Srcs: ins(
 		"dtors.cc",
