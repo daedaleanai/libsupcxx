@@ -59,8 +59,7 @@ extern "C" size_t _heapLen(const char **envp) {
 }
 
 // Add the cmdline (argv's elements, space-separated) to the start of the heap
-// Return the new start of the heap (after the cmdline)
-extern "C" char *_addCmdLine(size_t argc, const char **argv, char *heap) {
+extern "C" void _addCmdLine(size_t argc, const char **argv, char *heap) {
   char *end = heap;
   for (size_t i = 0; i < argc; ++i) {
     size_t len = strlen(argv[i]);
@@ -72,7 +71,7 @@ extern "C" char *_addCmdLine(size_t argc, const char **argv, char *heap) {
     }
     end = &end[len + 1];
   }
-  return end;
+  return;
 }
 
 // Called by start, allocates heap and populates bootInfo
@@ -97,9 +96,14 @@ extern "C" void _systemSetup(size_t argc, const char **argv,
 
   char *allocated = (char *)mmapReturn;
 
-  // We use the start of the memory we got from mmap to save the cmdline
-  // So the real heap starts after end of the cmdline
-  bootInfo.heapStart = (uint64_t)_addCmdLine(argc, argv, (char *)allocated);
+  // Copy the command line at the start of the allocated memory
+  _addCmdLine(argc, argv, (char *)allocated);
+
+  // There is only one memory region, i.e. what's been allocated
+  bootInfo.numMemoryRegions = 1;
   bootInfo.cmdline = (const char *)allocated;
-  bootInfo.heapEnd = (uint64_t)(bootInfo.cmdline + heapLen);
+  bootInfo.memoryMap[0].start = (uint64_t)allocated;
+  bootInfo.memoryMap[0].end = (uint64_t)(allocated + heapLen);
+  bootInfo.memoryMap[0].offset = 0;
+  bootInfo.memoryMap[0].type = MemoryType::RAM;
 }

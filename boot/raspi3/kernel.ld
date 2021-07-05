@@ -50,12 +50,12 @@ SECTIONS
     /* These need to be 8-byte aligned */
     . = ALIGN(8);
     __initArrayBegin = .;
-    *(.init_array)
+    *(SORT(.init_array*))
     __initArrayEnd = .;
 
     . = ALIGN(8);
     __finiArrayBegin = .;
-    *(.fini_array)
+    *(SORT(.fini_array*))
     __finiArrayEnd = .;
 
     *(.rodata*)

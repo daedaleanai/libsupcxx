@@ -52,18 +52,25 @@ extern "C" void _systemSetup(BootInfo *info) {
     "or $0x00000600, %eax\n\t"  // enable SSE and SSE exceptions
     "mov %eax, %cr4\n\t");      // the OSFXSR and OSXMMEXCPT bits
 
+  if (info->numMemoryRegions == 0 ||
+      info->memoryMap[0].type != MemoryType::RAM) {
+    return;
+  }
+
+  // For now we only support one RAM region in x86_64
+  uint64_t heapStart = info->memoryMap[0].start;
+  uint64_t heapEnd = info->memoryMap[0].end;
+
   // Identity map the heap if we have at least 2MB of it as that's the smallest
   // we can fit into a PAE+PSE page directory entry.
-  if (info->heapStart == 0 || info->heapEnd - info->heapStart < 0x00200000) {
-    info->heapStart = 0;
-    info->heapEnd = 0;
+  if (heapStart == 0 || heapEnd - heapStart < 0x00200000) {
+    info->numMemoryRegions = 0;
     return;
   }
 
   // We also don't look beyond the first 512GB
-  if ((info->heapStart >> 39) > 0) {
-    info->heapStart = 0;
-    info->heapEnd = 0;
+  if ((heapStart >> 39) > 0) {
+    info->numMemoryRegions = 0;
     return;
   }
 
@@ -87,8 +94,8 @@ extern "C" void _systemSetup(BootInfo *info) {
   // Check whether the fist page can be a huge page (1GB) - happens if the
   // virtual address is 1GB aligned. If not, allocate smaller pages, but still
   // PAE+PSE -> 2MB
-  uint64_t addr = info->heapStart;
-  uint64_t addrAlign = info->heapStart;
+  uint64_t addr = heapStart;
+  uint64_t addrAlign = heapStart;
   addrAlign >>= 30;
   addrAlign <<= 30;
 
@@ -101,7 +108,7 @@ extern "C" void _systemSetup(BootInfo *info) {
       uint64_t pdptEntry = pdpt[pdptIndex];
       pdptEntry &= ADDR_MASK;
       pdt = (uint64_t *)pdptEntry;
-    // We need a pdt for this page
+      // We need a pdt for this page
     } else {
       pdt = pdt1;
       uint64_t pdptEntry = (uint64_t)pdt;
@@ -117,13 +124,13 @@ extern "C" void _systemSetup(BootInfo *info) {
 
   // Map huge pages as long as we can
   for (pdptIndex = (addr >> 30) & 0x1ff;
-       addr + 0x40000000 <= info->heapEnd && pdptIndex < 512;
+       addr + 0x40000000 <= heapEnd && pdptIndex < 512;
        addr += 0x40000000, ++pdptIndex) {
     pdpt[pdptIndex] = addr | PAGE_FLAGS;
   }
 
   // Check if we have anything else to map and, if so, install another PDT
-  if (addr < info->heapEnd) {
+  if (addr < heapEnd) {
     pdptIndex = (addr >> 30) & 0x1ff;
     uint64_t pdptEntry = (uint64_t)pdt2;
     pdptEntry |= PDT_FLAGS;
@@ -131,7 +138,7 @@ extern "C" void _systemSetup(BootInfo *info) {
   }
 
   // Map the reminder as small PAE+PSE pages -> 2MB
-  for (pdtIndex = 0; pdtIndex < 512 && addr < info->heapEnd; ++pdtIndex) {
+  for (pdtIndex = 0; pdtIndex < 512 && addr < heapEnd; ++pdtIndex) {
     pdt2[pdtIndex] = addr | PAGE_FLAGS;
     addr += 0x00200000;
   }
