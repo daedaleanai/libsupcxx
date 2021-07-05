@@ -23,8 +23,17 @@
 
 #include <stdint.h>
 
+enum class MemoryType : uint32_t { INACCESSIBLE, RAM, DEVICE };
+
+struct MemoryRegion {
+  uint64_t start;
+  uint64_t end;
+  uint64_t offset;  //!< Offset to be used in the device context (ie. when assigning BARs)
+  MemoryType type;
+};
+
 struct [[gnu::packed]] BootInfo {
   const char *cmdline;
-  uint64_t heapStart;
-  uint64_t heapEnd;
+  MemoryRegion memoryMap[32];
+  uint32_t numMemoryRegions;
 };

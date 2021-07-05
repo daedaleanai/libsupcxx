@@ -26,6 +26,10 @@
 #include <stdint.h>
 #include <stddef.h>
 
+// This variable does not exist, but its address is known to the linker. See the
+// linker script for details.
+extern uint32_t __kernelEnd;
+
 namespace {
 struct MemChunk {
   MemChunk *next;
@@ -88,8 +92,65 @@ extern BootInfo bootInfo;
 
 namespace {
 [[gnu::constructor]] void setUpHeap() {
-  head = (MemChunk*)bootInfo.heapStart;
-  head->next = 0;
-  head->size = bootInfo.heapEnd - bootInfo.heapStart - sizeof(MemChunk);
+  MemChunk fakeHead;
+  MemChunk *cursor = &fakeHead;
+  uint64_t kernelEnd = (uint64_t)&__kernelEnd;
+
+  for (uint16_t i = 0; i < bootInfo.numMemoryRegions; ++i) {
+    uint64_t start = bootInfo.memoryMap[i].start;
+    uint64_t end = bootInfo.memoryMap[i].end;
+    const MemoryType type = bootInfo.memoryMap[i].type;
+
+    // We can only put the heap in RAM
+    if (type != MemoryType::RAM) {
+      continue;
+    }
+
+    // If the start address is above 4G and we're 32bits then it's useless
+    if (sizeof(int *) == 4 && start >= 0xffffffff) {
+      continue;
+    }
+
+    // It may start before 4G but end after
+    if (sizeof(int *) == 4 && end > 0xffffffff) {
+      end = 0xffffffff;
+    }
+    uint64_t size = end - start;
+
+    // Check if this RAM segment contains the kernel
+    if (start < kernelEnd && end >= kernelEnd) {
+      start = kernelEnd;
+    }
+
+    // Check if this RAM segment contains the kernel commandline. We assume that
+    // it may be located immediately after the kernel or at the beginning of the
+    // chunk. We also assume that the commandline fits the page.
+    uint64_t cmdlineAddr = (uint64_t)bootInfo.cmdline;
+    if (start <= cmdlineAddr && end > cmdlineAddr) {
+      start = (uint64_t)bootInfo.cmdline + 0x1000;
+    }
+
+    // Align the start to 4K
+    start -= 1;
+    start >>= 12;
+    start <<= 12;
+    start += 0x1000;
+    if (end >= start) {
+      size = end - start;
+    } else {
+      size = 0;
+    }
+
+    // We only care if it's at least a Megabyte
+    if (size < 0x00100000) {
+      continue;
+    }
+
+    cursor->next = (MemChunk *)start;
+    cursor = cursor->next;
+    cursor->next = 0;
+    cursor->size = size - sizeof(MemChunk);
+  }
+  head = fakeHead.next;
 }
 }

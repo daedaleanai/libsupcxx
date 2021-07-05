@@ -51,71 +51,62 @@ extern uint32_t __kernelEnd;
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wint-to-pointer-cast"
 
+// Populate bootInfo from MbInfo
 extern "C" void _parseMultiboot(uint32_t magic, MbInfo *info) {
-  // Find the largest available memory region for the heap
+  // Populate cmdline
+  bootInfo.cmdline = (char *)info->cmdline;
+
+  // We only populate one entry in bootInfo.memoryMap with the largest
+  // usable memory region we can find. Here we find it
   MbMmapEntry *mmap = (MbMmapEntry *)info->mmapAddr;
   bool hasLargest = false;
   uint64_t addr = 0;
   uint64_t len = 0;
 
   for (uint32_t i = 0; i < info->mmapLength; ++i) {
-    if(mmap[i].type != MULTIBOOT_MEMORY_AVAILABLE) {
+    if (mmap[i].addr < 0x1000) {
       continue;
     }
 
-    // 32-bits
-    if (sizeof(int*) == 4 && mmap[i].addr >= 0xffffffff) {
+    if (mmap[i].type != MULTIBOOT_MEMORY_AVAILABLE) {
       continue;
+      // TODO: non-available regions are DEVICES. 
+      // We should add them as DEVICE MemoryRegions
     }
 
-    uint64_t trimmedLen = mmap[i].len;
-    if (sizeof(int*) == 4 && mmap[i].addr + mmap[i].len > 0xffffffff) {
-      trimmedLen = 0xffffffff - mmap[i].addr;
-    }
-
-    if (!hasLargest || len < trimmedLen) {
+    if (!hasLargest || len < mmap[i].len) {
       hasLargest = true;
       addr = mmap[i].addr;
       len = mmap[i].len;
     }
   }
 
-  // Set the boot info structure
-  bootInfo.cmdline = (char *)info->cmdline;
-  bootInfo.heapStart = 0;
-  bootInfo.heapEnd = 0;
-
   if (!hasLargest) {
+    bootInfo.numMemoryRegions = 0;
     return;
   }
 
-  // See if the largest regions happens to overlap with where the kernel is
-  // loaded.
-  uint64_t kernelEnd = (uint64_t)&__kernelEnd;
-  uint64_t memEnd = addr+len;
-  if (kernelEnd > addr && kernelEnd <= memEnd) {
-    addr = kernelEnd;
-  }
+  // setUpHeap will align any MemoryRegion's start to 4K, but we also
+  // align the boundaries to 2MB on x86_64
+  uint64_t memEnd = addr + len;
 
-  // Align the boundaries to 4MB on x86 and to 2MB on x86_64
-  uint8_t shift = 22;
-  uint32_t add = 0x00400000;
-
-  if(sizeof(int*) == 8) {
-    shift = 21;
-    add = 0x00200000;
-  }
+  uint8_t shift = 21;
+  uint32_t add = 0x00200000;
 
   addr = (((addr-1)>>shift)<<shift)+add;
 
   if (addr >= memEnd) {
+    bootInfo.numMemoryRegions = 0;
     return;
   }
 
   memEnd = (((memEnd-1)>>shift)<<shift);
 
-  bootInfo.heapStart = addr;
-  bootInfo.heapEnd = memEnd;
+  // Populate bootInfo with the largest memory region we found
+  bootInfo.numMemoryRegions = 1;
+  bootInfo.memoryMap[0].type = MemoryType::RAM;
+  bootInfo.memoryMap[0].start = addr;
+  bootInfo.memoryMap[0].end = memEnd;
 }
 // You can warn again
 #pragma GCC diagnostic push

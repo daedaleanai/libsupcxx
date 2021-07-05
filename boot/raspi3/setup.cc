@@ -51,13 +51,17 @@ uint64_t tableL2[512] [[gnu::aligned(4096)]];
 #define MMU_DEV   (1<<2)      // Memory-mapped device
 
 extern "C" void _systemSetup(BootInfo *info) {
-  const char *cmdline = (const char*)0x12c;
+  const char *cmdline = (const char *)0x12c;
+
+  // For now, only populate one memory region
+  info->numMemoryRegions = 1;
+  info->memoryMap[0].type = MemoryType::RAM;
 
   // Defaults for when the bootloader did not specify anything. This likely
   // means we are in qemu. In either case, the heap memory starts wherever the
   // kernel memory ends.
-  info->heapStart = (uint64_t)&__kernelEnd;
-  info->heapEnd = 0x3ec00000;
+  info->memoryMap[0].start = (uint64_t)&__kernelEnd;
+  info->memoryMap[0].end = 0x3ec00000;
 
   // Figured that by poking at the memory with gdb, it does not seem to be
   // documented anywhere, but it works consistently, so here we are.
@@ -81,14 +85,14 @@ extern "C" void _systemSetup(BootInfo *info) {
     const char *ptr = vcBase;
     uint64_t heapEnd = strtoul(vcBase, &ptr, 16);
     if (ptr != vcBase && *ptr == ' ') {
-      info->heapEnd = heapEnd;
+      info->memoryMap[0].end = heapEnd;
     }
   }
 
   // Align the heap start to 16 bytes and heap end to 2MB because we later
   // map from the beginning of RAM in 2MB increments
-  info->heapStart = (((info->heapStart-1)>>4)<<4)+16;
-  info->heapEnd = (((info->heapEnd-1)>>21)<<21);
+  info->memoryMap[0].start = (((info->memoryMap[0].start-1)>>4)<<4)+16;
+  info->memoryMap[0].end = (((info->memoryMap[0].end-1)>>21)<<21);
 
   // We need to have a possibility of using unaligned memory access. This is a
   // default on ARMv8 for "normal memory", however by default all memory is
@@ -115,7 +119,7 @@ extern "C" void _systemSetup(BootInfo *info) {
   // increments
   // See: https://static.docs.arm.com/100940/0100/armv8_a_address%20translation_100940_0100_en.pdf
   // Section 4.
-  for (uint64_t addr = 0; addr < info->heapEnd; addr += 0x00200000) {
+  for (uint64_t addr = 0; addr < info->memoryMap[0].end; addr += 0x00200000) {
     uint64_t i = (addr >> 21) & 0x01ff; // Index of this virtual address
     tableL2[i] = addr     | // Physical address we want to use for this page
                  MMU_PAGE | // It's a page, 2MB at this level
