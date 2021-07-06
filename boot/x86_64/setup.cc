@@ -52,8 +52,7 @@ extern "C" void _systemSetup(BootInfo *info) {
     "or $0x00000600, %eax\n\t"  // enable SSE and SSE exceptions
     "mov %eax, %cr4\n\t");      // the OSFXSR and OSXMMEXCPT bits
 
-  if (info->numMemoryRegions == 0 ||
-      info->memoryMap[0].type != MemoryType::RAM) {
+  if (info->numMemoryRegions == 0 || info->memoryMap[0].type != MemoryType::RAM) {
     return;
   }
 
@@ -108,7 +107,7 @@ extern "C" void _systemSetup(BootInfo *info) {
       uint64_t pdptEntry = pdpt[pdptIndex];
       pdptEntry &= ADDR_MASK;
       pdt = (uint64_t *)pdptEntry;
-      // We need a pdt for this page
+    // We need a pdt for this page
     } else {
       pdt = pdt1;
       uint64_t pdptEntry = (uint64_t)pdt;
