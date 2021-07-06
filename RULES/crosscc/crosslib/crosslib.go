@@ -24,7 +24,7 @@ type CrossLibrary struct {
 }
 
 func OutPathForPlatform(base core.OutPath, p platform.Platform) core.OutPath {
-	return base.WithPrefix("/" + path.Base(base.Absolute()) + "-" + p.Name + "/")
+	return base.WithPrefix("/" + path.Base(base.Relative()) + "-" + p.Name + "/")
 }
 
 func (xLib CrossLibrary) platforms() []platform.Platform {
