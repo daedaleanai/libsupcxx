@@ -106,15 +106,6 @@ namespace {
       continue;
     }
 
-    // If the start address is above 4G and we're 32bits then it's useless
-    if (sizeof(int *) == 4 && start >= 0xffffffff) {
-      continue;
-    }
-
-    // It may start before 4G but end after
-    if (sizeof(int *) == 4 && end > 0xffffffff) {
-      end = 0xffffffff;
-    }
     uint64_t size = end - start;
 
     // Check if this RAM segment contains the kernel
