@@ -1,10 +1,10 @@
 package libruncxx
 
 import (
-	"libsupcxx/RULES/libsupcxx/xlib"
+	"libsupcxx/RULES/crosscc/crosslib"
 )
 
-var XLib = xlib.XLibrary{
+var XLib = crosslib.CrossLibrary{
 	Out: out("libruncxx.a"),
 	Srcs: ins(
 		"dtors.cc",
