@@ -1,10 +1,10 @@
 package src
 
 import (
-	"libsupcxx/RULES/libsupcxx/xlib"
+	"libsupcxx/RULES/crosscc/crosslib"
 )
 
-var XLib = xlib.XLibrary{
+var XLib = crosslib.CrossLibrary{
 	Out: out("libsupcxx.a"),
 	Srcs: ins(
 		"del_op.cc",

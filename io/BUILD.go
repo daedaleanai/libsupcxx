@@ -1,10 +1,10 @@
 package io
 
 import (
-	"libsupcxx/RULES/libsupcxx/xlib"
+	"libsupcxx/RULES/crosscc/crosslib"
 )
 
-var XLib = xlib.XLibrary{
+var XLib = crosslib.CrossLibrary{
 	Out: out("libio.a"),
 	Srcs: ins(
 		"printf.cc",

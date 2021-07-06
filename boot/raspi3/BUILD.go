@@ -5,7 +5,7 @@ import (
 	"dbt-rules/RULES/core"
 	"dbt-rules/RULES/util"
 
-	"libsupcxx/RULES/target"
+	"libsupcxx/RULES/platform"
 	"libsupcxx/libsupcxx/include"
 
 	gcc "aarch64-elf-gcc"
@@ -42,7 +42,7 @@ var bootLast = cc.Library{
 	Toolchain:  gcc.Toolchain,
 }
 
-var Target = target.Target{
+var Platform = platform.Platform{
 	Name:         "raspi3",
 	BootFirst:    bootFirst,
 	BootLast:     bootLast,
