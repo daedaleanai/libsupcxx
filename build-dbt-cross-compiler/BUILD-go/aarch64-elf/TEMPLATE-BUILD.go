@@ -9,7 +9,7 @@ var Toolchain = cc.GccToolchain{
 	Cpp:     in("bin/aarch64-elf-gcc -E"),
 	Cxx:     in("bin/aarch64-elf-g++"),
 	Objcopy: in("bin/aarch64-elf-objcopy"),
-	Objcopy: in("bin/aarch64-elf-ld"),
+	Ld:      in("bin/aarch64-elf-ld"),
 
 	Includes: ins(
 		"lib/gcc/aarch64-elf/GCC_VER/include",
