@@ -25,11 +25,18 @@
 #include "libsupcxx/boot/linux-x86_64/syscall.h"
 
 #include <cstring>
-#include <cstdint>
 
-// The length of the heap to allocate can be specified by an environment
-// variable
+// The following options can be set via environment variables:
+// * LIBSUPCXX_HEAPLEN: amount of heap to mmap
+// * LIBSUPCXX_HEAPSTART: address for start of mmapped heap. From man 2 mmap:
+// the kernel takes it as a hint about where to place the mapping; on Linux, the
+// kernel will pick a nearby page boundary (but always above or equal to the
+// value specified by /proc/sys/vm/mmap_min_addr) and attempt to create the
+// mapping there.  If another mapping already exists there, the kernel picks a
+// new address that may or may not depend on the hint.
+
 static const char *ENV_HEAPLEN = "LIBSUPCXX_HEAPLEN";
+static const char *ENV_HEAPSTART = "LIBSUPCXX_HEAPSTART";
 static const size_t HEAPLEN_DEFAULT = 1 << 26; // 64 MiB
 
 static const char *MMAP_ERR_MSG = "libsupcxx setup error\n";
@@ -58,6 +65,15 @@ extern "C" size_t _heapLen(const char **envp) {
   return HEAPLEN_DEFAULT;
 }
 
+// The address to mmap to the heap (from env, default: let the kernel choose)
+extern "C" void *_heapStart(const char **envp) {
+  const char *env = _getenv(envp, ENV_HEAPSTART);
+  if (env) {
+    return (void *)strtoul(env, nullptr, 0);
+  }
+  return nullptr;
+}
+
 // Add the cmdline (argv's elements, space-separated) to the start of the heap
 extern "C" void _addCmdLine(size_t argc, const char **argv, char *heap) {
   char *end = heap;
@@ -78,9 +94,10 @@ extern "C" void _addCmdLine(size_t argc, const char **argv, char *heap) {
 extern "C" void _systemSetup(size_t argc, const char **argv,
                              const char **envp) {
   size_t heapLen = _heapLen(envp);
+  void *heapStart = _heapStart(envp);
   int64_t mmapReturn =
       _syscall(SYS_mmap,               // mmap(
-               nullptr,                // addr, (let the kernel choose)
+               heapStart,              // addr, (let the kernel choose)
                heapLen,                // length, (from environment / default)
                PROT_READ | PROT_WRITE, // prot, (rw)
                MAP_PRIVATE | MAP_ANONYMOUS, // flags, (not file-mapped)
