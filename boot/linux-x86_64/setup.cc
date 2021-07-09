@@ -25,6 +25,7 @@
 #include "libsupcxx/boot/linux-x86_64/syscall.h"
 
 #include <cstring>
+#include <cstdint>
 
 // The following options can be set via environment variables:
 // * LIBSUPCXX_HEAPLEN: amount of heap to mmap
@@ -97,7 +98,7 @@ extern "C" void _systemSetup(size_t argc, const char **argv,
   void *heapStart = _heapStart(envp);
   int64_t mmapReturn =
       _syscall(SYS_mmap,               // mmap(
-               heapStart,              // addr, (let the kernel choose)
+               heapStart,              // addr, (from environment / default)
                heapLen,                // length, (from environment / default)
                PROT_READ | PROT_WRITE, // prot, (rw)
                MAP_PRIVATE | MAP_ANONYMOUS, // flags, (not file-mapped)
