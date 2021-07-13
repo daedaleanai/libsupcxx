@@ -5,9 +5,6 @@ import (
 
 	"dbt-rules/RULES/cc"
 	"dbt-rules/RULES/core"
-
-	"libsupcxx/RULES/platform"
-	"libsupcxx/libsupcxx/include"
 )
 
 // This package is only meant to be used within libsupcxx, outside code should use
@@ -17,53 +14,67 @@ type CrossLibrary struct {
 	Srcs          []core.Path
 	Includes      []core.Path
 	CompilerFlags []string
-	XDeps         []CrossLibrary
+	CrossDeps     []CrossLibrary
+	CrossObjs     []CrossObject
 	Shared        bool
 	AlwaysLink    bool
-	Platforms     []platform.Platform
+	Toolchains    []cc.Toolchain
 }
 
-func OutPathForPlatform(base core.OutPath, p platform.Platform) core.OutPath {
-	return base.WithPrefix("/" + path.Base(base.Relative()) + "-" + p.Name + "/")
+type CrossObject interface {
+	WithToolchain(p cc.Toolchain) core.OutPath
 }
 
-func (xLib CrossLibrary) platforms() []platform.Platform {
-	if xLib.Platforms == nil {
-		return platform.AllPlatforms()
+func OutPathWithToolchain(base core.OutPath, toolchain cc.Toolchain) core.OutPath {
+	return base.WithPrefix("/" + path.Base(base.Relative()) + "-" + toolchain.Name() + "/")
+}
+
+func (xLib CrossLibrary) toolchains() []cc.Toolchain {
+	if xLib.Toolchains == nil {
+		return cc.AllToolchains()
 	}
-	return xLib.Platforms
+	return xLib.Toolchains
 }
 
-func AllForPlatform(xLibs []CrossLibrary, p platform.Platform) []cc.Dep {
+func AllLibsWithToolchain(xLibs []CrossLibrary, toolchain cc.Toolchain) []cc.Dep {
 	libs := make([]cc.Dep, len(xLibs))
 	for i, xLib := range xLibs {
-		libs[i] = xLib.ForPlatform(p)
+		libs[i] = xLib.WithToolchain(toolchain)
 	}
 	return libs
 }
 
-func (xLib CrossLibrary) ForPlatform(p platform.Platform) cc.Library {
-	if xLib.Platforms != nil && !platform.ContainsPlatform(xLib.Platforms, p) {
-		core.Fatal("CrossLibrary %s does not support platform %s", xLib.Out, p.Name)
+func AllObjsWithToolchain(xObjs []CrossObject, toolchain cc.Toolchain) []core.Path {
+	paths := make([]core.Path, len(xObjs))
+	for i, xObj := range xObjs {
+		paths[i] = xObj.WithToolchain(toolchain)
 	}
-	return xLib.forPlatform(p)
+	return paths
 }
 
-func (xLib CrossLibrary) forPlatform(p platform.Platform) cc.Library {
+func (xLib CrossLibrary) WithToolchain(toolchain cc.Toolchain) cc.Library {
+	if xLib.Toolchains != nil && !cc.ContainsToolchain(xLib.Toolchains, toolchain) {
+		core.Fatal("CrossLibrary %s does not support platform %s", xLib.Out, toolchain.Name)
+	}
+	return xLib.withToolchain(toolchain)
+}
+
+func (xLib CrossLibrary) withToolchain(toolchain cc.Toolchain) cc.Library {
 	return cc.Library{
-		Out:           OutPathForPlatform(xLib.Out, p),
+		Out:           OutPathWithToolchain(xLib.Out, toolchain),
 		Srcs:          xLib.Srcs,
-		Includes:      append(xLib.Includes, include.Headers...),
+		Objs:          AllObjsWithToolchain(xLib.CrossObjs, toolchain),
+		Includes:      xLib.Includes,
 		CompilerFlags: xLib.CompilerFlags,
-		Deps:          AllForPlatform(xLib.XDeps, p),
+		Deps:          AllLibsWithToolchain(xLib.CrossDeps, toolchain),
 		Shared:        xLib.Shared,
 		AlwaysLink:    xLib.AlwaysLink,
-		Toolchain:     p.GccToolchain,
+		Toolchain:     toolchain,
 	}
 }
 
 func (xLib CrossLibrary) Build(ctx core.Context) {
-	for _, p := range xLib.platforms() {
-		xLib.forPlatform(p).Build(ctx)
+	for _, toolchain := range xLib.toolchains() {
+		xLib.withToolchain(toolchain).Build(ctx)
 	}
 }

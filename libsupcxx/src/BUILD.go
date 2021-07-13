@@ -4,7 +4,7 @@ import (
 	"libsupcxx/RULES/crosscc/crosslib"
 )
 
-var XLib = crosslib.CrossLibrary{
+var CrossLib = crosslib.CrossLibrary{
 	Out: out("libsupcxx.a"),
 	Srcs: ins(
 		"del_op.cc",
