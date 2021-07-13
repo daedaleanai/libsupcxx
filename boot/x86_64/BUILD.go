@@ -5,7 +5,6 @@ import (
 	"dbt-rules/RULES/core"
 	"dbt-rules/RULES/util"
 
-	"libsupcxx/RULES/platform"
 	"libsupcxx/libsupcxx/include"
 
 	gcc "x86_64-elf-gcc"
@@ -47,10 +46,8 @@ var bootLast = cc.Library{
 	Toolchain:  gcc.Toolchain,
 }
 
-var Platform = platform.Platform{
-	Name:         "x86_64",
-	BootFirst:    bootFirst,
-	BootLast:     bootLast,
-	LinkerScript: in("kernel.ld"),
-	GccToolchain: gcc.Toolchain,
-}.Register()
+var Toolchain = gcc.Toolchain.NewWithStdLib(
+	append(gcc.Toolchain.Includes, include.Headers...),
+	[]cc.Dep{bootLast, bootFirst}, in("kernel.ld"),
+	"x86_64-gcc",
+).Register()
