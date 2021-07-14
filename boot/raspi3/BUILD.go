@@ -11,6 +11,13 @@ import (
 	gcc "aarch64-elf-gcc"
 )
 
+var bootToolchain = gcc.Toolchain.NewWithStdLib(
+	append(gcc.Toolchain.Includes, include.Headers...),
+	libsupcxx.CommonLibs,
+	in("kernel.ld"),
+	"raspi3-libsupcxx",
+)
+
 var crt2 = util.CopyFile{
 	From: gcc.CrtBegin,
 	To:   out("crt2.o"),
@@ -29,8 +36,7 @@ var bootFirst = cc.Library{
 	),
 	Objs:       []core.Path{crt2.To},
 	AlwaysLink: true,
-	Includes:   include.Headers,
-	Toolchain:  gcc.Toolchain,
+	Toolchain:  bootToolchain,
 }
 
 var bootLast = cc.Library{
@@ -38,13 +44,12 @@ var bootLast = cc.Library{
 	Srcs:       ins("io.cc"),
 	Objs:       []core.Path{crt3.To},
 	AlwaysLink: true,
-	Includes:   include.Headers,
-	Toolchain:  gcc.Toolchain,
+	Toolchain:  bootToolchain,
 }
 
-var Toolchain = gcc.Toolchain.NewWithStdLib(
-	append(gcc.Toolchain.Includes, include.Headers...),
-	append(libsupcxx.CommonLibs, bootLast, bootFirst),
-	in("kernel.ld"),
-	"raspi3-libsupcxx",
+var Toolchain = bootToolchain.NewWithStdLib(
+	bootToolchain.Includes,
+	append(bootToolchain.StdDeps(), bootLast, bootFirst),
+	bootToolchain.LinkerScript,
+	bootToolchain.Name(),
 ).Register()
