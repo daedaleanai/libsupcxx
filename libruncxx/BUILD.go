@@ -1,10 +1,10 @@
 package libruncxx
 
 import (
-	"libsupcxx/RULES/crosscc/crosslib"
+	"dbt-rules/RULES/cc"
 )
 
-var CrossLib = crosslib.CrossLibrary{
+var Lib = cc.Library{
 	Out: out("libruncxx.a"),
 	Srcs: ins(
 		"dtors.cc",
@@ -15,4 +15,4 @@ var CrossLib = crosslib.CrossLibrary{
 		"eh_globals.cc",
 		"exit.cc",
 	),
-}
+}.MultipleToolchains()
