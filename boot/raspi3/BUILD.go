@@ -5,6 +5,7 @@ import (
 	"dbt-rules/RULES/core"
 	"dbt-rules/RULES/util"
 
+	"libsupcxx"
 	"libsupcxx/libsupcxx/include"
 
 	gcc "aarch64-elf-gcc"
@@ -43,6 +44,7 @@ var bootLast = cc.Library{
 
 var Toolchain = gcc.Toolchain.NewWithStdLib(
 	append(gcc.Toolchain.Includes, include.Headers...),
-	[]cc.Dep{bootLast, bootFirst}, in("kernel.ld"),
-	"raspi3-gcc",
+	append(libsupcxx.CommonLibs, bootLast, bootFirst),
+	in("kernel.ld"),
+	"raspi3-libsupcxx",
 ).Register()

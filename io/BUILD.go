@@ -1,13 +1,13 @@
 package io
 
 import (
-	"libsupcxx/RULES/crosscc/crosslib"
+	"dbt-rules/RULES/cc"
 )
 
-var CrossLib = crosslib.CrossLibrary{
+var Lib = cc.Library{
 	Out: out("libio.a"),
 	Srcs: ins(
 		"printf.cc",
 		"io.cc",
 	),
-}
+}.MultipleToolchains()

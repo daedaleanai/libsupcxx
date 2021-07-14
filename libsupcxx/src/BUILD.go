@@ -1,10 +1,10 @@
 package src
 
 import (
-	"libsupcxx/RULES/crosscc/crosslib"
+	"dbt-rules/RULES/cc"
 )
 
-var CrossLib = crosslib.CrossLibrary{
+var Lib = cc.Library{
 	Out: out("libsupcxx.a"),
 	Srcs: ins(
 		"del_op.cc",
@@ -52,4 +52,4 @@ var CrossLib = crosslib.CrossLibrary{
 
 		"cstring.cc",
 	),
-}
+}.MultipleToolchains()
