@@ -10,4 +10,5 @@ var Lib = cc.Library{
 		"printf.cc",
 		"io.cc",
 	),
+	AlwaysLink: true,
 }.MultipleToolchains()
