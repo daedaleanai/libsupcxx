@@ -47,9 +47,9 @@ var bootLast = cc.Library{
 	Toolchain:  bootToolchain,
 }
 
-var Toolchain = bootToolchain.NewWithStdLib(
+var Toolchain = cc.RegisterToolchain(bootToolchain.NewWithStdLib(
 	bootToolchain.Includes,
 	append(bootToolchain.StdDeps(), bootLast, bootFirst),
 	bootToolchain.LinkerScript,
 	bootToolchain.Name(),
-).Register()
+))
