@@ -13,4 +13,4 @@ dependencies:
   url: git@github.com:daedaleanai/dbt-rules.git
   version:
     rev: master
-    hash: f711c8041fd18668dcd9eaf4348424befcfdcb42
+    hash: e631f4625516923d0e65ba3eca987107acd4394d
