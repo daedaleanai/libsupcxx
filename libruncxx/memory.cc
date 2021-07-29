@@ -22,6 +22,7 @@
 //------------------------------------------------------------------------------
 
 #include "libsupcxx/boot/bootinfo.hh"
+#include "libsupcxx/io/printf.hh"
 
 #include <stdint.h>
 #include <stddef.h>
@@ -141,6 +142,7 @@ namespace {
     cursor = cursor->next;
     cursor->next = 0;
     cursor->size = size - sizeof(MemChunk);
+    io::printf("[memory] Using region at %p, size %p\n", cursor, cursor->size);
   }
   head = fakeHead.next;
 }
