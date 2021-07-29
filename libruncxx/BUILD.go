@@ -15,4 +15,5 @@ var Lib = cc.Library{
 		"eh_globals.cc",
 		"exit.cc",
 	),
+	AlwaysLink: true,
 }.MultipleToolchains()
