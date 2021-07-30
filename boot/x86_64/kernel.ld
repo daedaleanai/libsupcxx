@@ -83,12 +83,14 @@ SECTIONS
      | before any other constructors except for the heap initializer.
      *------------------------------------------------------------------------*/
     SORT(*libboot_first.a:*)(.ctors*)
+    *(SORT(.ctors.*))
     EXCLUDE_FILE(*libboot_last.a:* *libio.a:vga* *libruncxx.a:memory*) *(.ctors)
     *libio.a:vga*(.ctors*)
     *libruncxx.a:memory*(.ctors*)
     SORT(*libboot_last.a:*)(.ctors*)
 
     SORT(*libboot_first.a:*)(.dtors*)
+    *(SORT(.dtors.*))
     EXCLUDE_FILE(*libboot_last.a:*) *(.dtors)
     SORT(*libboot_last.a:*)(.dtors*)
 
