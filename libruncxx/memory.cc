@@ -21,6 +21,7 @@
 // <http://www.gnu.org/licenses/>.
 //------------------------------------------------------------------------------
 
+#include "libsupcxx/io/memory.hh"
 #include "libsupcxx/boot/bootinfo.hh"
 
 #include <stdint.h>
@@ -86,6 +87,25 @@ extern "C" void free(void *ptr) {
 
   MemChunk *chunk = (MemChunk *)((char *)ptr - sizeof(MemChunk));
   chunk->size &= ~MEMCHUNK_USED;
+}
+
+extern "C" void reconfigureHeap(io::Region regions[], unsigned int numRegions) {
+  if (numRegions == 0) {
+    head = 0;
+    return;
+  }
+
+  for (uint32_t i = 0; i < numRegions; ++i) {
+    MemChunk *chunk = (MemChunk *)regions[i].address;
+    chunk->size = regions[i].size;
+    if (i + 1 == numRegions) {
+      chunk->next = nullptr;
+    } else {
+      chunk->next = (MemChunk *)regions[i + 1].address;
+    }
+  }
+
+  head = (MemChunk *)regions[0].address;
 }
 
 extern BootInfo bootInfo;
