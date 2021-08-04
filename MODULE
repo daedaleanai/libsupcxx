@@ -10,7 +10,7 @@ dependencies:
     rev: master
     hash: 8f6bb9068ed1ba02d15c0aef8fb3e9d7e99ab91d206be6181ff9b5d145ffc6d1
 - name: dbt-rules
-  url: git@github.com:daedaleanai/dbt-rules.git
+  url: https://github.com/daedaleanai/dbt-rules.git
   version:
     rev: master
     hash: e631f4625516923d0e65ba3eca987107acd4394d
