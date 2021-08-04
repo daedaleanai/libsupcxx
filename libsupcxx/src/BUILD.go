@@ -52,4 +52,5 @@ var Lib = cc.Library{
 
 		"cstring.cc",
 	),
+	AlwaysLink: true,
 }.MultipleToolchains()
