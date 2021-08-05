@@ -77,12 +77,12 @@ To fetch the dependencies run:
 
 To build the whole thing run:
 
-    dbt build //libsupcxx/... target=<target>
+    dbt build //libsupcxx/... cc-toolchain=<toolchain>
 
-where target is one of
- * `x86_64`
- * `raspi3`
- * `linux-x86_64`
+where toolchain is one of
+ * `x86_64-libsupcxx`
+ * `raspi3-libsupcxx`
+ * `linux-x86_64-libsupcxx`
 
 Running and debugging
 ---------------------
