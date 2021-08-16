@@ -64,10 +64,10 @@ uint32_t printNumStr(char *str, uint64_t num, int base) {
   return len;
 }
 
-int32_t printNum(uint64_t num, int base, int padZeros = 0) {
+int32_t printNum(uint64_t num, int base, uint32_t padZeros = 0) {
   char buffer[64];
   uint32_t len = printNumStr(buffer, num, base);
-  int pad = 0;
+  uint32_t pad = 0;
   if(padZeros) {
     for(pad = 0; pad < padZeros-len; ++pad) {
       io::putString("0");
