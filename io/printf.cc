@@ -155,6 +155,12 @@ uint32_t printFloat(double num) {
 namespace io {
 int32_t printf(const char *format, ...) {
   va_list ap;
+  va_start(ap, format);
+  int32_t written = vprintf(format, ap);
+  va_end (ap);
+  return written;
+}
+int32_t vprintf(const char *format, va_list ap) {
   int length  = 0;
   int sz      = 0;
   int base    = 0;
@@ -165,7 +171,6 @@ int32_t printf(const char *format, ...) {
   const char *cursor = format;
   const char *start  = format;
 
-  va_start(ap, format);
   while(*cursor) {
     if(*cursor == '%') {
       putString(start, length);
@@ -254,7 +259,6 @@ int32_t printf(const char *format, ...) {
     putString(start, length);
     written += length;
   }
-  va_end (ap);
   return written;
 }
 } // namespace io

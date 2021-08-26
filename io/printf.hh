@@ -23,10 +23,12 @@
 
 #pragma once
 
+#include <stdarg.h>
 #include <stdint.h>
 
 namespace io {
 
 int32_t printf(const char *format, ...);
+int32_t vprintf(const char *format, va_list va);
 
 }
