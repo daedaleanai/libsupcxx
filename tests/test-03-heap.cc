@@ -2,6 +2,7 @@
 #include "libsupcxx/io/printf.hh"
 #include "libsupcxx/io/memory.hh"
 
+#include <cstdint>
 #include <new>
 
 class IInterface {
