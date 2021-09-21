@@ -77,7 +77,7 @@ To fetch the dependencies run:
 
 To build the whole thing run:
 
-    dbt build //libsupcxx/... cc-toolchain=<toolchain>
+    dbt build "//libsupcxx/.*" cc-toolchain=<toolchain>
 
 where toolchain is one of
  * `x86_64-libsupcxx`
