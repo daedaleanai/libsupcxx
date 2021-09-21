@@ -1,16 +1,1 @@
 dependencies:
-- name: aarch64-elf-gcc
-  url: https://storage.googleapis.com/gcc-toolchains/aarch64-elf-gcc-11.1.0-binutils-2.31.1-x86_64.tar.gz
-  version:
-    rev: master
-    hash: 353c3d9604774af10afefd1ac7e13f485e126408556506ab53d56a7a288ff0db
-- name: x86_64-elf-gcc
-  url: https://storage.googleapis.com/gcc-toolchains/x86_64-elf-gcc-11.1.0-binutils-2.31.1-x86_64.tar.gz
-  version:
-    rev: master
-    hash: 8f6bb9068ed1ba02d15c0aef8fb3e9d7e99ab91d206be6181ff9b5d145ffc6d1
-- name: dbt-rules
-  url: https://github.com/daedaleanai/dbt-rules.git
-  version:
-    rev: master
-    hash: e631f4625516923d0e65ba3eca987107acd4394d
