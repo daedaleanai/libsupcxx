@@ -36,7 +36,7 @@ static const char *MMAP_ERR_MSG = "libsupcxx setup error\n";
 
 extern "C" uint64_t _syscall(uint64_t syscall, ...);
 
-extern BootInfo bootInfo;
+BootInfo bootInfo;
 
 // Similar to standard getenv, but takes envp as argument
 extern "C" const char *_getenv(const char **envp, const char *name) {

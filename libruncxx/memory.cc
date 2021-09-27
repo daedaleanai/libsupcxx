@@ -89,7 +89,7 @@ extern "C" void free(void *ptr) {
   chunk->size &= ~MEMCHUNK_USED;
 }
 
-BootInfo bootInfo = {"", {}, 0};
+extern BootInfo bootInfo;
 
 namespace {
 [[gnu::constructor]] void setUpHeap() {

@@ -33,7 +33,7 @@ extern uint32_t __initArrayEnd;
 extern uint32_t __finiArrayBegin;
 extern uint32_t __finiArrayEnd;
 
-extern BootInfo bootInfo;
+BootInfo bootInfo;
 
 // Page tables - we will only address the first 1GB using 2MB pages
 uint64_t tableL1[512] [[gnu::aligned(4096)]];
