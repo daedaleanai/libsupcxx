@@ -41,7 +41,7 @@ struct MbInfo {
   uint32_t mmapAddr;
 };
 
-BootInfo bootInfo;
+extern BootInfo bootInfo;
 
 // This variable does not exist, but it's address is known to the linker. See
 // the linker script for details.
