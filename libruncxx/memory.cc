@@ -89,26 +89,7 @@ extern "C" void free(void *ptr) {
   chunk->size &= ~MEMCHUNK_USED;
 }
 
-extern "C" void reconfigureHeap(io::Region regions[], unsigned int numRegions) {
-  if (numRegions == 0) {
-    head = 0;
-    return;
-  }
-
-  for (uint32_t i = 0; i < numRegions; ++i) {
-    MemChunk *chunk = (MemChunk *)regions[i].address;
-    chunk->size = regions[i].size;
-    if (i + 1 == numRegions) {
-      chunk->next = nullptr;
-    } else {
-      chunk->next = (MemChunk *)regions[i + 1].address;
-    }
-  }
-
-  head = (MemChunk *)regions[0].address;
-}
-
-extern BootInfo bootInfo;
+BootInfo bootInfo = {"", {}, 0};
 
 namespace {
 [[gnu::constructor]] void setUpHeap() {

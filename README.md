@@ -96,12 +96,12 @@ therefore, can be run using `qemu`. To install `qemu` on Ubuntu, type:
 
 To run the tests, type:
 
-    qemu-system-i386 -kernel tests/test-07-throw-clean-up-rethrow.elf
+    qemu-system-i386 -serial stdio -kernel tests/test-07-throw-clean-up-rethrow.elf
 
 The binaries are built in debug mode by default and may be debugged using GDB.
 Run `qemu` in one terminal window:
 
-    qemu-system-i386 -S -s -kernel tests/test-07-throw-clean-up-rethrow.elf
+    qemu-system-i386 -serial stdio -S -s -kernel tests/test-07-throw-clean-up-rethrow.elf
 
 The `-s` parameter is a shorthand for `-gdb tcp::1234` and will start a GDB
 server at `localhost:1234`, `-S` tells `qemu` to not start the virtual CPU,

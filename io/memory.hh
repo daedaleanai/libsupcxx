@@ -31,5 +31,4 @@ struct Region {
 };
 extern "C" void *malloc(size_t size);
 extern "C" void free(void *ptr);
-extern "C" void reconfigureHeap(Region regions[], unsigned int numRegions);
 } // namespace io
