@@ -11,4 +11,4 @@ var Lib = cc.Library{
 		"io.cc",
 	),
 	AlwaysLink: true,
-}.MultipleToolchains()
+}

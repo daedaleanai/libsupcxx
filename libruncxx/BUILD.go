@@ -16,4 +16,4 @@ var Lib = cc.Library{
 		"exit.cc",
 	),
 	AlwaysLink: true,
-}.MultipleToolchains()
+}

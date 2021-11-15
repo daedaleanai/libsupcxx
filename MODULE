@@ -5,7 +5,7 @@ dependencies:
     version: origin/master
   dbt-rules:
     url: https://github.com/daedaleanai/dbt-rules.git
-    version: v1.2.0
+    version: v1.5.0
   x86_64-elf-gcc:
     url: https://storage.googleapis.com/gcc-toolchains/x86_64-elf-gcc-11.1.0-binutils-2.31.1-x86_64.tar.gz
     version: origin/master
@@ -16,8 +16,8 @@ pinneddependencies:
     hash: 353c3d9604774af10afefd1ac7e13f485e126408556506ab53d56a7a288ff0db
   dbt-rules:
     url: https://github.com/daedaleanai/dbt-rules.git
-    version: v1.2.0
-    hash: 7e96939c08ec3960fa1def9fb4323a707b42d67d
+    version: v1.5.0
+    hash: 8bd32d1e2d7af8da1b9ec76468d31eee604cca91
   x86_64-elf-gcc:
     url: https://storage.googleapis.com/gcc-toolchains/x86_64-elf-gcc-11.1.0-binutils-2.31.1-x86_64.tar.gz
     version: origin/master
